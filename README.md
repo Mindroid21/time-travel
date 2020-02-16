@@ -8,6 +8,11 @@ It also will have a `Days-Hours-Minutes-Seconds` timer. Users can switch between
 ## Tech Stack
 
 - **MEAN** / **MERN** stack. Typescript must.
+- Heroku Hosting
+- Mongo Lab / Mongo Atlas
+- Node + Express / Nest JS
+- Jest Unit Testing
+- Swagger
 
 ## Features
 

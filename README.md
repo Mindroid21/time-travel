@@ -13,6 +13,7 @@ It also will have a `Days-Hours-Minutes-Seconds` timer. Users can switch between
 - Node + Express / Nest JS
 - Jest Unit Testing
 - Swagger
+- Yarn Package Manager (Both `create-react-app` adn )
 
 ## Features
 
@@ -41,3 +42,29 @@ It also will have a `Days-Hours-Minutes-Seconds` timer. Users can switch between
 
 - [Online Countdown timer](https://tech-card.herokuapp.com/admin/#/timer)
 - [Online Todo list / Checklist](https://kanban-chi.appspot.com/dashboard/5722649325731840/d-5722649325731840)
+
+## Installing using Yarn
+
+You need the latest version of Yarn installed, for more details. Please check the following links.
+
+- [Travery Media Youtube link](https://www.youtube.com/watch?v=g9_6KmiBISk)
+- [YARN official Documentation site](https://yarnpkg.com/)
+- [Travery Media Website](https://www.traversymedia.com/)
+- [YARN Windows Installer](https://classic.yarnpkg.com/en/docs/install#windows-stable)
+
+### For Nest JS
+
+```bash
+# Setup yarn from the cli that Nest JS provides
+C:\> nest new backend
+Which package manager will you require ?
+- yarn
+```
+
+### For Create-react-app
+
+- [For more info](https://create-react-app.dev/docs/getting-started/)
+
+```bash
+# setup 
+```

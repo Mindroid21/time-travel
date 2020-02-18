@@ -66,5 +66,6 @@ Which package manager will you require ?
 - [For more info](https://create-react-app.dev/docs/getting-started/)
 
 ```bash
-# setup 
+# setup using yarn
+yarn create react-app frontend
 ```

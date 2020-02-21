@@ -1,5 +1,9 @@
 # Time Travel
 
+<div style="width:100; text-align:center">
+    <img width="200px" height="200px" style="border-radius: 10px" src="./design/logo.png" title="time-travel-logo"></a>
+</div>
+
 This is an online **Progressive Web Application**. 
 Users can login using Google / Facebook / Gtihub. They can create Checklist / Todo list for perhaps travel / study / grocery...etc.,
 

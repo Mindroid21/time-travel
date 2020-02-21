@@ -5,6 +5,9 @@ Users can login using Google / Facebook / Gtihub. They can create Checklist / To
 
 It also will have a `Days-Hours-Minutes-Seconds` timer. Users can switch between `Count-up` / `Count-down` timers.
 
+![Time Travel Data Model v1.0](./design/data-model.png)
+
+
 ## Tech Stack
 
 - **MEAN** / **MERN** stack. Typescript must.
@@ -22,6 +25,8 @@ It also will have a `Days-Hours-Minutes-Seconds` timer. Users can switch between
 - Users can use the `Timer` independently
 - Or they can map a `Countdown` timer to a checklist 
 - The application will notify them of the checklist / task once the countdown timer reaches zero
+
+---
 
 ## Scope
 
@@ -42,6 +47,8 @@ It also will have a `Days-Hours-Minutes-Seconds` timer. Users can switch between
 
 - [Online Countdown timer](https://tech-card.herokuapp.com/admin/#/timer)
 - [Online Todo list / Checklist](https://kanban-chi.appspot.com/dashboard/5722649325731840/d-5722649325731840)
+
+---
 
 ## Installing using Yarn
 

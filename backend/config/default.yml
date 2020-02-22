@@ -3,3 +3,9 @@ server:
 
 db:
   uri: 'mongodb://admin:zuko2352@ds149706.mlab.com:49706/time-travel'
+
+gClient:
+  key: 'AIzaSyASjOrAMMu2RYKQBldqY1-ZTM3w0xv_YXk'
+  id: '276997654254-mbmq2tgrj3dhkh48rs1dshtf2jfcfl48.apps.googleusercontent.com'
+  secret: '5lITiLdw-GaTdfRWLqwg_X0T'
+  url: 'https://timely-travel.herokuapp.com'

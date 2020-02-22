@@ -21,6 +21,8 @@ It also will have a `Days-Hours-Minutes-Seconds` timer. Users can switch between
 - Jest Unit Testing
 - Swagger
 - Yarn Package Manager (Both `create-react-app` adn )
+- GSAP Animation library
+- Font Family [Satisfy](https://fonts.google.com/?selection.family=Satisfy)
 
 ## Features
 
@@ -47,10 +49,15 @@ It also will have a `Days-Hours-Minutes-Seconds` timer. Users can switch between
 - Any File Upload
 - Image Upload
 
+---
+
 ## References
 
 - [Online Countdown timer](https://tech-card.herokuapp.com/admin/#/timer)
 - [Online Todo list / Checklist](https://kanban-chi.appspot.com/dashboard/5722649325731840/d-5722649325731840)
+- [Complete OAuth 2.0 Auth Module using Nest JS](https://github.com/bojidaryovchev/nest-angular/tree/master/)
+    - Auth Module located in `src/server/modules/auth/`
+    - Support for Strategies - `Google OAuth 2.0, Facebook, Twitter, Local`
 
 ---
 
@@ -80,3 +87,24 @@ Which package manager will you require ?
 # setup using yarn
 yarn create react-app frontend
 ```
+
+# Font family
+
+## Satisfy
+
+[Google Fonts Link](https://fonts.google.com/?selection.family=Satisfy)
+
+```html
+<link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
+```
+
+```css
+<style>
+@import url('https://fonts.googleapis.com/css?family=Satisfy&display=swap');
+</style>
+```
+
+```css
+font-family: 'Satisfy', cursive, sans-serif;
+```
+

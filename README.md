@@ -53,6 +53,8 @@ It also will have a `Days-Hours-Minutes-Seconds` timer. Users can switch between
 
 ## References
 
+![Time Travel Data Model v1.0](./design/references/momentum-reference.png)
+
 - [Online Countdown timer](https://tech-card.herokuapp.com/admin/#/timer)
 - [Online Todo list / Checklist](https://kanban-chi.appspot.com/dashboard/5722649325731840/d-5722649325731840)
 - [Complete OAuth 2.0 Auth Module using Nest JS](https://github.com/bojidaryovchev/nest-angular/tree/master/)

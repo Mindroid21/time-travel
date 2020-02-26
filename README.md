@@ -5,7 +5,8 @@
 </div>
 
 This is an online **Progressive Web Application**. 
-Users can login using Google / Facebook / Gtihub. They can create Checklist / Todo list for perhaps travel / study / grocery...etc.,
+Users can login using Google / Facebook / Gtihub. 
+They can create Checklist / Todo list for perhaps travel / study / grocery...etc.,
 
 It also will have a `Days-Hours-Minutes-Seconds` timer. Users can switch between `Count-up` / `Count-down` timers.
 

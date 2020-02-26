@@ -1,8 +1,5 @@
-export interface JwtPayload {
-    username: string;
-}
-
-export interface JwtSecret {
-    secretOrKey: string;
-    expiry? : number;
-}
+export interface IJwtPayload {
+  readonly sub: string;
+  readonly iat: number;
+  readonly exp: number;
+};

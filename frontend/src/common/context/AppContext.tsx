@@ -27,16 +27,19 @@ export const AppStateContext = React.createContext<IContextState>({
 
 export const AppDispatchContext = React.createContext({}); // Separate context for updating state
 
-
 const appContextReducer = (state: IContextState, action: {type: CONTEXT_ACTION_TYPE, payload: any}): any => {
     switch (action.type) {
         case CONTEXT_ACTION_TYPE.VERSION:
+            console.log(`Dispatch Context Action: ${CONTEXT_ACTION_TYPE.VERSION}`);
             return { version: action.payload };
         case CONTEXT_ACTION_TYPE.TITLE:
+            console.log(`Dispatch Context Action: ${CONTEXT_ACTION_TYPE.TITLE}`);
             return { title: action.payload};
         case CONTEXT_ACTION_TYPE.PALETTE:
+            console.log(`Dispatch Context Action: ${CONTEXT_ACTION_TYPE.PALETTE}`);
             return { themePalette: action.payload};
         case CONTEXT_ACTION_TYPE.HEADER:
+            console.log(`Dispatch Context Action: ${CONTEXT_ACTION_TYPE.HEADER}`);
             return { isHeaderSearch: action.payload};
         default:
             throw new Error(`Unhandled action type: ${action.type}`);

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 // material
-import { MuiThemeProvider } from '@material-ui/core/styles';
 import { SnackbarProvider } from 'notistack';
 // custom components
 import { AppStateContext, IContextState } from './../common/context/AppContext';
-import { getThemeOptions } from './../common/helper/ThemeConfigProvider';
+import Paperbase from '../layouts/paper/Paperbase';
 // CSS
 import './App.css';
 
@@ -15,16 +14,14 @@ class App extends Component {
   }
 
   render() {
-    const { themePalette }: IContextState = this.context;
-    return ( <MuiThemeProvider theme={getThemeOptions(themePalette)}>
+    return (
         <SnackbarProvider
             maxSnack={3} anchorOrigin={{
             vertical: 'top',
             horizontal: 'center',
         }}>
-
+          <Paperbase/>
         </SnackbarProvider>
-        </MuiThemeProvider>
     );
   }
   

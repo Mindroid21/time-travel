@@ -11,7 +11,7 @@ export type IContextState = {
     isHeaderSearch: boolean,
 };
 
-export const enum CONTEXT_ACTION_TYPE {
+export enum CONTEXT_ACTION_TYPE {
     VERSION = 'version',
     TITLE = 'title',
     PALETTE = 'themePalette',

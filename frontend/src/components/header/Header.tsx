@@ -1,14 +1,12 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import HelpIcon from '@material-ui/icons/Help';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import TimerIcon from '@material-ui/icons/Timer';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -65,14 +63,7 @@ function Header(props: HeaderProps) {
                 </IconButton>
               </Grid>
             </Hidden>
-            <Grid item xs />
-            <Grid item>
-              <Tooltip title="Help">
-                <IconButton color="inherit">
-                  <HelpIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>       
+            <Grid item xs />     
             <Grid item>
               <Tooltip title="Alerts • No alerts">
                 <IconButton color="inherit">
@@ -81,10 +72,12 @@ function Header(props: HeaderProps) {
               </Tooltip>
             </Grid>
             <Grid item>
-              <IconButton color="inherit" className={classes.iconButtonAvatar}>
-                <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
-              </IconButton>
-            </Grid>
+              <Tooltip title="Help">
+                <IconButton color="inherit">
+                  <HelpIcon />
+                </IconButton>
+              </Tooltip>
+            </Grid>  
           </Grid>
         </Toolbar>
       </AppBar>
@@ -98,7 +91,7 @@ function Header(props: HeaderProps) {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h5" component="h1">
-                Timer
+                <TimerIcon/> Timer
               </Typography>
             </Grid>            
           </Grid>

@@ -64,6 +64,7 @@ const styles = (theme: Theme) =>
       color: '#4fc3f7',
     },
     itemPrimary: {
+      cursor: 'pointer',
       fontSize: 'inherit',
     },
     itemIcon: {

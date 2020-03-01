@@ -11,24 +11,41 @@ export const useStyles = makeStyles(theme => ({
       width: '99%',
       height: '90%'
     },
+    imageIcon: {
+      borderRadius: 10,
+      width: '150px',
+      marginBottom: 10,
+      boxShadow: theme.shadows[3]
+    },
+    title: {
+      marginBottom: 30
+    },
     paper: {
-      maxWidth: 936,
-      margin: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minWidth: 275,
+      margin: 20,
       overflow: 'hidden',
     },
-    searchBar: {
-      borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+    socialBtn: {
+      margin: '10px 0'
     },
-    searchInput: {
-      fontSize: theme.typography.fontSize,
-    },
-    block: {
-      display: 'block',
-    },
-    addUser: {
-      marginRight: theme.spacing(1),
+    fontIcon: {
+      fontSize: 30,
     },
     contentWrapper: {
+      // border: '1px solid green',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
       margin: '40px 16px',
     },
+    footer: {
+      justifySelf: 'flex-end',
+      padding: 20,
+      maxWidth: 275
+    }
   }));

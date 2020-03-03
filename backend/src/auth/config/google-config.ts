@@ -1,4 +1,5 @@
 import { IGoogleConfig } from '../interfaces/google-config.interface';
+import * as config from 'config';
 
 export const googleConfig: IGoogleConfig = {
   login_dialog_uri: 'https://accounts.google.com/o/oauth2/auth',

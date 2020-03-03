@@ -4,8 +4,6 @@ import { Request } from 'express';
 
 import { AuthService } from './auth.service';
 import { IToken } from './interfaces/token.interface';
-import { RolesGuard } from '../../guards/roles.guard';
-import { Roles } from '../../decorators/roles.decorator';
 
 @Controller('api/auth')
 export class AuthController {
@@ -65,12 +63,5 @@ export class AuthController {
   async requestJsonWebTokenAfterGoogleSignIn(@Req() req: Request): Promise<IToken> {
     return await this.authService.createToken(req.user);
   }
-
-  @Get('authorized')
-  @Roles('user')
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
-  public async authorized(): Promise<any> {
-    console.log('Authorized route...');
-    return {'message': 'Hello'};
-  }
+  
 }

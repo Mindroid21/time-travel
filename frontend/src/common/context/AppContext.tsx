@@ -31,16 +31,16 @@ const appContextReducer = (state: IContextState, action: {type: CONTEXT_ACTION_T
     switch (action.type) {
         case CONTEXT_ACTION_TYPE.VERSION:
             console.log(`Dispatch Context Action: ${CONTEXT_ACTION_TYPE.VERSION}`);
-            return { version: action.payload };
+            return { version: action.payload.version };
         case CONTEXT_ACTION_TYPE.TITLE:
             console.log(`Dispatch Context Action: ${CONTEXT_ACTION_TYPE.TITLE}`);
-            return { title: action.payload};
+            return { title: action.payload.title};
         case CONTEXT_ACTION_TYPE.PALETTE:
             console.log(`Dispatch Context Action: ${CONTEXT_ACTION_TYPE.PALETTE}`);
-            return { themePalette: action.payload};
+            return { themePalette: action.payload.mode};
         case CONTEXT_ACTION_TYPE.HEADER:
             console.log(`Dispatch Context Action: ${CONTEXT_ACTION_TYPE.HEADER}`);
-            return { isHeaderSearch: action.payload};
+            return { isHeaderSearch: action.payload.header};
         default:
             throw new Error(`Unhandled action type: ${action.type}`);
     }

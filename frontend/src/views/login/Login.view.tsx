@@ -85,7 +85,7 @@ const LoginView : FunctionComponent = () => {
                         <Button
                             fullWidth
                             variant="contained"
-                            color="primary"
+                            color="secondary"
                             className={classes.socialBtn}>
                             Login
                         </Button>

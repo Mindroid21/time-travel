@@ -12,6 +12,11 @@ It also will have a `Days-Hours-Minutes-Seconds` timer. Users can switch between
 
 ![Time Travel Data Model v1.0](./design/data-model.png)
 
+## Important Links
+- [Adobe Color Wheel](https://color.adobe.com/create)\
+- [Material UI 4.2.6 Palette Ganerator](https://in-your-saas.github.io/material-ui-theme-editor/)
+- [Material UI Docs Site](https://material-ui.com/customization/themes/#palette)
+- [Firebase MUI Theme - Paperbase](https://material-ui.com/store/items/paperbase/)
 
 ## Tech Stack
 
@@ -111,3 +116,112 @@ yarn create react-app frontend
 font-family: 'Satisfy', cursive, sans-serif;
 ```
 
+# Material Theme Configuration
+
+- The Theme Palette is taken from [Adobe Color Wheel](https://color.adobe.com/explore?page=2)
+- The Below Gradients for Primary & Secondary have been taken from the [MUI Palette Generator](https://in-your-saas.github.io/material-ui-theme-editor/)
+
+## Primary Color Gradient
+
+```css
+/* Color Theme Swatches in Hex */
+.Azules-1-hex { color: #0A2459; }
+.Azules-2-hex { color: #0D2F73; }
+.Azules-3-hex { color: #16558C; }
+.Azules-4-hex { color: #147CA6; }
+.Azules-5-hex { color: #36B1BF; }
+
+/* Color Theme Swatches in RGBA */
+.Azules-1-rgba { color: rgba(10, 36, 89, 1); }
+.Azules-2-rgba { color: rgba(13, 47, 115, 1); }
+.Azules-3-rgba { color: rgba(22, 85, 140, 1); }
+.Azules-4-rgba { color: rgba(20, 124, 166, 1); }
+.Azules-5-rgba { color: rgba(54, 177, 191, 1); }
+```
+
+## Secondary Color Gradient
+
+```css
+/* Color Theme Swatches in Hex */
+.My-Color-Theme-1-hex { color: #B80F4F; }
+.My-Color-Theme-2-hex { color: #380418; }
+.My-Color-Theme-3-hex { color: #C34A79; }
+.My-Color-Theme-4-hex { color: #381523; }
+.My-Color-Theme-5-hex { color: #850B39; }
+
+/* Color Theme Swatches in RGBA */
+.My-Color-Theme-1-rgba { color: rgba(184, 15, 79, 1); }
+.My-Color-Theme-2-rgba { color: rgba(56, 4, 24, 1); }
+.My-Color-Theme-3-rgba { color: rgba(195, 74, 121, 1); }
+.My-Color-Theme-4-rgba { color: rgba(56, 21, 35, 1); }
+.My-Color-Theme-5-rgba { color: rgba(133, 11, 57, 1); }
+```
+
+Using the Above Colors, The Palette JSON is as follows:
+
+```json
+{"palette":{"common":{"black":"#000","white":"#fff"},"background":{"paper":"#fff","default":"rgba(244, 244, 244, 1)"},"primary":{"light":"rgba(20, 124, 166, 1)","main":"rgba(22, 85, 140, 1)","dark":"rgba(10, 36, 89, 1)","contrastText":"#fff"},"secondary":{"light":"rgba(240, 52, 122, 1)","main":"rgba(184, 15, 79, 1)","dark":"rgba(133, 11, 57, 1)","contrastText":"#fff"},"error":{"light":"rgba(255, 64, 64, 1)","main":"rgba(217, 54, 54, 1)","dark":"rgba(128, 44, 67, 1)","contrastText":"#fff"},"text":{"primary":"rgba(0, 0, 0, 0.87)","secondary":"rgba(0, 0, 0, 0.54)","disabled":"rgba(0, 0, 0, 0.38)","hint":"rgba(0, 0, 0, 0.38)"}}}
+```
+
+The Final Theme Palette JSON for MUI version 4.2.1 is as follows:
+
+```js
+let theme = createMuiTheme({
+        palette: {
+            "common": {
+                "black": "#000",
+                "white": "#fff"
+            },
+            "background": {
+                "paper": "#fff",
+                "default": "rgba(244, 244, 244, 1)"
+            },
+            "primary": {
+                "light": "rgba(20, 124, 166, 1)",
+                "main": "rgba(22, 85, 140, 1)",
+                "dark": "rgba(10, 36, 89, 1)",
+                "contrastText": "#fff"
+            },
+            "secondary": {
+                "light": "rgba(240, 52, 122, 1)",
+                "main": "rgba(184, 15, 79, 1)",
+                "dark": "rgba(133, 11, 57, 1)",
+                "contrastText": "#fff"
+            },
+            "error": {
+                "light": "rgba(255, 64, 64, 1)",
+                "main": "rgba(217, 54, 54, 1)",
+                "dark": "rgba(128, 44, 67, 1)",
+                "contrastText": "#fff"
+            },
+            "text": {
+                "primary": "rgba(0, 0, 0, 0.87)",
+                "secondary": "rgba(0, 0, 0, 0.54)",
+                "disabled": "rgba(0, 0, 0, 0.38)",
+                "hint": "rgba(0, 0, 0, 0.38)"
+            }
+        },
+        typography: {
+          fontFamily: ['"Montserrat"' , 'sans-serif'].join(','), 
+          fontSize: 16,
+          h5: {
+            fontWeight: 500,
+            fontSize: 26,
+            letterSpacing: 0.5,
+          },
+        },
+        shape: {
+          borderRadius: 8,
+        },
+        props: {
+          MuiTab: {
+            disableRipple: true,
+          },
+        },
+        mixins: {
+          toolbar: {
+            minHeight: 48,
+          },
+        }
+    });
+```

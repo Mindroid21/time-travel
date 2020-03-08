@@ -29,6 +29,7 @@ export const useQontoStepIconStyles = makeStyles({
       color: '#eaeaf0',
       display: 'flex',
       height: 22,
+      // width: 100,
       alignItems: 'center',
     },
     active: {
@@ -84,6 +85,13 @@ export const useStyles = makeStyles((theme: Theme) =>
       instructions: {
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
+      },
+      routeLink: {
+        color: theme.palette.secondary.main,
+        textDecoration: 'none',
+        '&:hover': {
+          textDecoration: 'underline'
+        },
       },
     }),
 );

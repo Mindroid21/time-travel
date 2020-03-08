@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
-import Button from '@material-ui/core/Button';
+import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
+// material
+import Button from '@material-ui/core/Button';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -8,9 +10,15 @@ import Check from '@material-ui/icons/Check';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { StepIconProps } from '@material-ui/core/StepIcon';
+import Grid from '@material-ui/core/Grid';
 // styles
 import { QontoConnector, useQontoStepIconStyles, useStyles } from './register-stepper.style';
 
+interface IUserCredentials {
+  name: string;
+  email: string;
+  password: string;
+};
 
 function QontoStepIcon(props: StepIconProps) {
   const classes = useQontoStepIconStyles();
@@ -38,7 +46,7 @@ export default function RegisterStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [content, setContent] = React.useState(<React.Fragment></React.Fragment>);
   const steps = getSteps();
-  const [userName, setUserName] = React.useState('');
+  const [credentials, setCredentials] = React.useState<IUserCredentials>({name:'', email:'', password:''});
   const [isContinue, setContinue] = React.useState(true);
   const [errMsg, setErrMsg] = React.useState('');
 
@@ -46,28 +54,54 @@ export default function RegisterStepper() {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
-  const handleChange = (evt: any) => {        
+  const handleChange = (evt: any) => {  
     console.log('Value is: ', evt.target.value);
-    if (evt.target.value !== '') {
-        setContinue(false);
-        setErrMsg('');
-      } else {
-        setContinue(true);
+    if (!evt.target && evt.target.value ==='') {
+      return;
+    } else {
+      switch (evt.target.name) {
+        case 'name':
+          setCredentials((prev: IUserCredentials) => { 
+            return { 
+              name : evt.target.value,
+              email: prev.email,
+              password: prev.password
+            };
+          });
+          return;
+        case 'email':
+          setCredentials((prev: IUserCredentials) => { 
+            return { 
+              name : prev.name,
+              email: evt.target.value,
+              password: prev.password
+            };
+          });
+          return;
+        case 'password':
+          setCredentials((prev: IUserCredentials) => { 
+            return { 
+              name : prev.name,
+              email: prev.email,
+              password: evt.target.value
+            };
+          });
+          return;
+        default:
+          console.log('Doesnt match any fields!');
+      }
+    }      
+  };
+
+  //side-effect #1
+  useEffect(()=>{
+    console.log('User Credentails: ', credentials);
+    if (credentials.name !=='') {
+      setContinue(false);
     }
-    if (evt.target.name === 'name') {            
-        setUserName(evt.target.value);
-    }
-  };
-
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  //side-effects
+  },[credentials]);
+  
+  // side-effect #2
   useEffect(()=>{
     if (activeStep === 0) {
       setContent (
@@ -84,7 +118,7 @@ export default function RegisterStepper() {
             label="Your Name"
             name="name"
             autoFocus
-            onChange={handleChange}/>
+            onBlur={handleChange}/>
             <Button
               disabled={isContinue}
               onClick={handleNext}
@@ -97,24 +131,66 @@ export default function RegisterStepper() {
       );
     } else if (activeStep === 1) {
       setContent(
-        <Typography color="textSecondary" align="center">
-          Provide an email ID and password
-        </Typography>
+        <React.Fragment>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Your Email Address"
+            name="email"
+            autoFocus
+            onBlur={handleChange}/>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            autoComplete="current-password"
+            type="password"
+            id="password"
+            onBlur={handleChange}/>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Confirm Password"
+            autoComplete="confirm-password"
+            type="password"
+            id="password"
+            onBlur={handleChange}/> 
+            <Button
+              disabled={isContinue}
+              onClick={handleNext}
+              fullWidth
+              variant="contained"
+              color="primary">
+                Register
+            </Button>
+        </React.Fragment>
       )
     } else if (activeStep === 2) {
-      setContent(
-        <Typography color="textSecondary" align="center">
-          Congratulations! your are all set
-        </Typography>
-      )
+      setContent (
+        <React.Fragment>
+          <Typography color="textSecondary" align="center">
+            Congratulations! your are all set, <br/>
+            <RouterLink to="/login" className={classes.routeLink}>Next up: Login</RouterLink>
+          </Typography>
+        </React.Fragment>
+      );
     } else {
-      setContent(
+      setContent (
         <Typography color="textSecondary" align="center">
           Register in just 3 simple steps
         </Typography>
       )
     }
-  },[activeStep, isContinue, errMsg]);
+  },[activeStep, isContinue, errMsg, classes.routeLink]);
 
   return (
     <div className={classes.root}>
@@ -125,9 +201,9 @@ export default function RegisterStepper() {
           </Step>
         ))}
       </Stepper>
-      <div>
+      <Grid item xs={12} md={12}>
         {content}
-      </div>
+      </Grid>
     </div>
   );
 }

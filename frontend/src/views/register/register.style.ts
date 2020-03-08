@@ -26,6 +26,7 @@ export const useStyles = makeStyles(theme => ({
       justifyContent: 'center',
       alignItems: 'center',
       minWidth: 275,
+      maxWidth: 360,
       margin: 20,
       overflow: 'hidden',
     },

@@ -113,7 +113,7 @@ yarn create react-app frontend
 ```
 
 ```css
-font-family: 'Satisfy', cursive, sans-serif;
+font-family: 'Satisfy', cursive, sans-serif;]'\K,1QAS\ L .
 ```
 
 # Material Theme Configuration

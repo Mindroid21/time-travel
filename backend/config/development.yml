@@ -17,3 +17,7 @@ googleConfig:
     'https://www.googleapis.com/auth/plus.profile.emails.read'
   ]
   grant_type: 'authorization_code'
+
+jwt:
+  secret: 'timeTravelPramod'
+  expiry: 3600

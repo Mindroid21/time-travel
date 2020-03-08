@@ -1,14 +1,15 @@
 import React, { FunctionComponent, useEffect } from 'react';
-// custom
+import { useSnackbar } from 'notistack';
+// material
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
-import Navigator from '../../components/nav/Navigator';
+// custom
+import Sidebar from '../../components/sidebar/Sidebar';
 import Content from '../content/Content';
 import Header from '../../components/header/Header';
 import Copyright from '../../components/copy/CopyRight';
 import { useStyles, drawerWidth } from './dashboard-layout.styles';
 import CloseActionButton from './../../components/buttons/close-button/CloseActionButton';
-import { useSnackbar } from 'notistack';
 
 const DashboardLayout: FunctionComponent = () => {
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -35,7 +36,7 @@ const DashboardLayout: FunctionComponent = () => {
         <CssBaseline />
         <nav className={classes.drawer}>
           <Hidden smUp implementation="js">
-            <Navigator
+            <Sidebar
               PaperProps={{ style: { width: drawerWidth } }}
               variant="temporary"
               open={mobileOpen}
@@ -43,7 +44,7 @@ const DashboardLayout: FunctionComponent = () => {
             />
           </Hidden>
           <Hidden xsDown implementation="css">
-            <Navigator PaperProps={{ style: { width: drawerWidth } }} />
+            <Sidebar PaperProps={{ style: { width: drawerWidth } }} />
           </Hidden>
         </nav>
         <div className={classes.app}>

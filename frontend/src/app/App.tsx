@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 // custom components
-import { AppStateContext, IContextState } from './../common/context/AppContext';
+import { AppStateContext, IAppContextState } from './../common/context/AppContext';
 import Paperbase from '../layouts/paper/Paperbase';
 
 class App extends Component {
     // eslint-disable-next-line no-useless-constructor,@typescript-eslint/no-useless-constructor
-  constructor (props: any, context: IContextState) {
+  constructor (props: any, context: IAppContextState) {
     super(props, context);
   }
   render() {

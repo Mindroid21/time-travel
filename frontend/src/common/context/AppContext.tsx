@@ -4,30 +4,27 @@
  */
 import React, { FunctionComponent } from 'react';
 
-export type IContextState = {
+export type IAppContextState = {
     version: string,
     title: string,
     themePalette: any,
-    isHeaderSearch: boolean,
 };
 
 export enum CONTEXT_ACTION_TYPE {
     VERSION = 'version',
     TITLE = 'title',
     PALETTE = 'themePalette',
-    HEADER = 'isHeaderSearch'
 };
 
-export const AppStateContext = React.createContext<IContextState>({
+export const AppStateContext = React.createContext<IAppContextState>({
     version: '1.0.0',
     title: 'Time-Travel',
     themePalette: 'light',
-    isHeaderSearch: false
 }); // Separate context for storing state
 
 export const AppDispatchContext = React.createContext({}); // Separate context for updating state
 
-const appContextReducer = (state: IContextState, action: {type: CONTEXT_ACTION_TYPE, payload: any}): any => {
+const appContextReducer = (state: IAppContextState, action: {type: CONTEXT_ACTION_TYPE, payload: any}): any => {
     switch (action.type) {
         case CONTEXT_ACTION_TYPE.VERSION:
             console.log(`Dispatch Context Action: ${CONTEXT_ACTION_TYPE.VERSION}`);
@@ -38,9 +35,6 @@ const appContextReducer = (state: IContextState, action: {type: CONTEXT_ACTION_T
         case CONTEXT_ACTION_TYPE.PALETTE:
             console.log(`Dispatch Context Action: ${CONTEXT_ACTION_TYPE.PALETTE}`);
             return { themePalette: action.payload.mode};
-        case CONTEXT_ACTION_TYPE.HEADER:
-            console.log(`Dispatch Context Action: ${CONTEXT_ACTION_TYPE.HEADER}`);
-            return { isHeaderSearch: action.payload.header};
         default:
             throw new Error(`Unhandled action type: ${action.type}`);
     }

@@ -8,15 +8,18 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 // custom
 import {useStyles} from './login.style';
-import Copyright from '../../components/copy/CopyRight';
+import RegisterButton from '../../components/buttons/register-button/RegisterButton';
 import logo from './../../assets/logo.png';
-import {AppStateContext} from './../../common/context/AppContext';
 import { authenticateUser } from './../../common/async/AsyncCalls';
 import { addLocalStorageItem } from './../../common/helper/LocalStorageProvider';
+// context
+import { RouterDispatchContext, NAMED_ROUTES } from './../../router/context/RouterContext';
+import {AppStateContext} from './../../common/context/AppContext';
 
 const LoginView : FunctionComponent = () => {
     const classes = useStyles();
     const appContext = useContext(AppStateContext);
+    const dispatch: any = useContext(RouterDispatchContext);
     //states
     const [username,setUserName] = useState('');
     const [password, setPassword] = useState('');
@@ -34,6 +37,12 @@ const LoginView : FunctionComponent = () => {
             setPassword(event.target.value);
         }
     };
+
+    const handleLogin = () => {
+        dispatch ({
+            type: NAMED_ROUTES.APP
+        });
+    }
 
     const authenticate = async (evt: any) => {
         setLoading(true);
@@ -83,6 +92,7 @@ const LoginView : FunctionComponent = () => {
                             autoComplete="current-password"
                             onBlur={handleChange}/>
                         <Button
+                            onClick={handleLogin}
                             fullWidth
                             variant="contained"
                             color="secondary"
@@ -91,7 +101,7 @@ const LoginView : FunctionComponent = () => {
                         </Button>
                     </div>
                     <footer className={classes.footer}>
-                        <Copyright/>
+                        <RegisterButton/>
                     </footer>
                 </Paper>
             </Grid>

@@ -55,7 +55,7 @@ export default function RegisterStepper() {
   };
 
   const handleChange = (evt: any) => {  
-    console.log('Value is: ', evt.target.value);
+    // console.log('Value is: ', evt.target.value);
     if (!evt.target && evt.target.value ==='') {
       return;
     } else {
@@ -95,12 +95,12 @@ export default function RegisterStepper() {
 
   //side-effect #1
   useEffect(()=>{
-    console.log('User Credentails: ', credentials);
+    // console.log('User Credentails: ', credentials);
     if (credentials.name !=='') {
       setContinue(false);
     }
   },[credentials]);
-  
+
   // side-effect #2
   useEffect(()=>{
     if (activeStep === 0) {

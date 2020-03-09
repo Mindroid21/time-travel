@@ -8,11 +8,9 @@ import { AuthService } from './services/auth.service';
 import { jwtSecret } from './config/jwt.config';
 import { JwtStrategy } from './services/jwt.strategy';
 import { UserSchema } from './models/user.model';
-import { EmailModule } from '../email/email.module';
 
 @Module({
   imports: [
-    EmailModule,
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),

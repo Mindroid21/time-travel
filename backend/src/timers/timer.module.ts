@@ -3,10 +3,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { MongooseModule } from '@nestjs/mongoose';
 // custom
-import { DraftController } from './controllers/drafts.controller';
-import { DraftService } from './services/drafts.service';
+import { TimerController } from './controllers/timer.controller';
+import { TimerService } from './services/timer.service';
 import { jwtSecret } from '../auth/config/jwt.config';
-import { DraftSchema } from './models/drafts.model';
+import { TimerSchema } from './models/timer.model';
 import { AuthModule } from '../auth/auth.module';
 import { TagsModule } from '../tags/tags.module';
 import { GroupsModule } from '../groups/groups.module';
@@ -24,16 +24,16 @@ import { ArtistsModule } from '../artists/artists.module';
             },
         }),
         MongooseModule.forFeature([{
-            name: 'Draft',
-            schema: DraftSchema
+            name: 'Timer',
+            schema: TimerSchema
         }]),
         ArtistsModule,
         AuthModule,
         TagsModule,
         GroupsModule,
     ],
-    controllers: [DraftController],
-    providers: [DraftService],
-    exports: [DraftService]
+    controllers: [TimerController],
+    providers: [TimerService],
+    exports: [TimerService]
 })
-export class DraftModule {}
+export class TimerModule {}

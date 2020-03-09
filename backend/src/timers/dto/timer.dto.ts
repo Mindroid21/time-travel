@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsOptional, IsArray, IsNumber, IsIn } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsNumber, IsIn } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
-import { DRAFT_STATUS } from '../models/drafts.model';
+import { TIMER_STATUS } from '../models/timer.model';
 
-export class DraftDetailsDto {
+export class TimerDetailsDto {
     @ApiModelProperty({
         required: true
     })
@@ -17,48 +17,34 @@ export class DraftDetailsDto {
 
     @ApiModelProperty()
     @IsOptional()
-    updatedBy: string;
-
-    @ApiModelProperty()
-    @IsOptional()
     description: string;
-
-    @ApiModelProperty()
-    @IsArray()
-    links: string [];
 
     @ApiModelProperty({
         required: true
     })
-    @IsNotEmpty()
-    content: string;
+    isTask: boolean;
 
     @ApiModelProperty({
         required: true
     })
     @IsNotEmpty()
     @IsNumber()
-    date: number;
+    sDate: number;
 
-    @ApiModelProperty()
-    @IsArray()
-    tags: string[];
-
-    @ApiModelProperty()
-    @IsOptional()
-    artist: string;
-
-    @ApiModelProperty()
-    @IsArray()
-    groups: string[];
+    @ApiModelProperty({
+        required: true
+    })
+    @IsNotEmpty()
+    @IsNumber()
+    eDate: number;
 
     @ApiModelProperty()
     @IsNotEmpty()
-    @IsIn([ DRAFT_STATUS.IN_PROGRESS, DRAFT_STATUS.NEW, DRAFT_STATUS.SUBMITTED ])
-    status: DRAFT_STATUS;
+    @IsIn([ TIMER_STATUS.ACTIVE, TIMER_STATUS.COMPLETED ])
+    status: TIMER_STATUS;
 }
 
-export class DraftParamIdDto {
+export class TimerParamIdDto {
     @ApiModelProperty({
         required: true
     })

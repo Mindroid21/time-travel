@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 // material
@@ -15,7 +15,8 @@ import Grid from '@material-ui/core/Grid';
 import { QontoConnector, useQontoStepIconStyles, useStyles } from './register-stepper.style';
 
 interface IUserCredentials {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 };
@@ -43,64 +44,61 @@ function getSteps() {
 
 export default function RegisterStepper() {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [content, setContent] = React.useState(<React.Fragment></React.Fragment>);
+  const [activeStep, setActiveStep] = useState(0);
+  const [content, setContent] = useState(<React.Fragment></React.Fragment>);
   const steps = getSteps();
-  const [credentials, setCredentials] = React.useState<IUserCredentials>({name:'', email:'', password:''});
-  const [isContinue, setContinue] = React.useState(true);
-  const [errMsg, setErrMsg] = React.useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isContinueDisabled, setContinueDisabled] = useState(true);
+  const [isRegisterDisabled, setRegisterDisabled] = useState(true);
+  const [errMsg, setErrMsg] = useState('');
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
-  const handleChange = (evt: any) => {  
-    // console.log('Value is: ', evt.target.value);
-    if (!evt.target && evt.target.value ==='') {
-      return;
+  const handleFirstNameChange = (evt: any) => {
+    if (evt.target.value !=='') {
+      setFirstName(evt.target.value);
+      setContinueDisabled(false);
     } else {
-      switch (evt.target.name) {
-        case 'name':
-          setCredentials((prev: IUserCredentials) => { 
-            return { 
-              name : evt.target.value,
-              email: prev.email,
-              password: prev.password
-            };
-          });
-          return;
-        case 'email':
-          setCredentials((prev: IUserCredentials) => { 
-            return { 
-              name : prev.name,
-              email: evt.target.value,
-              password: prev.password
-            };
-          });
-          return;
-        case 'password':
-          setCredentials((prev: IUserCredentials) => { 
-            return { 
-              name : prev.name,
-              email: prev.email,
-              password: evt.target.value
-            };
-          });
-          return;
-        default:
-          console.log('Doesnt match any fields!');
-      }
-    }      
+      setContinueDisabled(true);
+    }
   };
 
-  //side-effect #1
-  useEffect(()=>{
-    // console.log('User Credentails: ', credentials);
-    if (credentials.name !=='') {
-      setContinue(false);
+  const handleLastNameChange = (evt: any) => {
+    if (evt.target.value !=='') {
+      setLastName(evt.target.value);
     }
-  },[credentials]);
+  };
 
+  const handleEmailChange = (evt: any) => {
+    if (evt.target.value !=='') {
+      setEmail(evt.target.value);
+      setRegisterDisabled(false);
+    } else {
+      setRegisterDisabled(true);
+    }
+  };
+
+  const handlePasswordChange = (evt: any) => {
+    if (evt.target.value !=='') {
+      setPassword(evt.target.value);
+      setRegisterDisabled(false);
+    } else {
+      setRegisterDisabled(true);
+    }
+  };
+
+  const handleConfirmPasswordChange = (evt: any) => {
+    if (evt.target.value !== password){
+      setRegisterDisabled(true);
+    } else {
+      setRegisterDisabled(false);
+    }
+  };
   // side-effect #2
   useEffect(()=>{
     if (activeStep === 0) {
@@ -114,13 +112,23 @@ export default function RegisterStepper() {
             margin="normal"
             required
             fullWidth
-            id="name"
-            label="Your Name"
-            name="name"
+            id="firstName"
+            label="First Name"
+            name="firstName"
+            defaultValue={firstName}
             autoFocus
-            onBlur={handleChange}/>
+            onBlur={handleFirstNameChange}/>
+            <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="lastName"
+            label="Last Name"
+            name="lastName"
+            autoFocus
+            onBlur={handleLastNameChange}/>
             <Button
-              disabled={isContinue}
+              disabled={isContinueDisabled}
               onClick={handleNext}
               fullWidth
               variant="contained"
@@ -141,7 +149,7 @@ export default function RegisterStepper() {
             label="Your Email Address"
             name="email"
             autoFocus
-            onBlur={handleChange}/>
+            onBlur={handleEmailChange}/>
           <TextField
             variant="outlined"
             margin="normal"
@@ -152,7 +160,7 @@ export default function RegisterStepper() {
             autoComplete="current-password"
             type="password"
             id="password"
-            onBlur={handleChange}/>
+            onBlur={handlePasswordChange}/>
           <TextField
             variant="outlined"
             margin="normal"
@@ -163,9 +171,9 @@ export default function RegisterStepper() {
             autoComplete="confirm-password"
             type="password"
             id="password"
-            onBlur={handleChange}/> 
+            onBlur={handleConfirmPasswordChange}/> 
             <Button
-              disabled={isContinue}
+              disabled={isRegisterDisabled}
               onClick={handleNext}
               fullWidth
               variant="contained"
@@ -190,7 +198,7 @@ export default function RegisterStepper() {
         </Typography>
       )
     }
-  },[activeStep, isContinue, errMsg, classes.routeLink]);
+  },[activeStep, isContinueDisabled, isRegisterDisabled, errMsg, classes.routeLink]);
 
   return (
     <div className={classes.root}>

@@ -1,20 +1,20 @@
 import { Schema } from 'mongoose';
 
-export interface ITag {
+export interface IQuote {
     id?: string;
-    name: string;    
+    title: string;    
     description: string;    
 }
 
-export const TagSchema = new Schema({
-    name: {
+export const QuoteSchema = new Schema({
+    title: {
         type: String,
         unique: true,
-        required: 'Enter tag title'
+        required: 'Enter quote title'
     },    
     description: {
         type: String,
         unique: true,
-        required: 'Provide tag description'
+        required: 'Provide quote description'
     }
 });

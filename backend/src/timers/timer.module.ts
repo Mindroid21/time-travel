@@ -8,9 +8,7 @@ import { TimerService } from './services/timer.service';
 import { jwtSecret } from '../auth/config/jwt.config';
 import { TimerSchema } from './models/timer.model';
 import { AuthModule } from '../auth/auth.module';
-import { TagsModule } from '../tags/tags.module';
-import { GroupsModule } from '../groups/groups.module';
-import { ArtistsModule } from '../artists/artists.module';
+import { QuoteModule } from '../quotes/quotes.module';
 
 @Module({
     imports: [
@@ -27,10 +25,8 @@ import { ArtistsModule } from '../artists/artists.module';
             name: 'Timer',
             schema: TimerSchema
         }]),
-        ArtistsModule,
         AuthModule,
-        TagsModule,
-        GroupsModule,
+        QuoteModule,        
     ],
     controllers: [TimerController],
     providers: [TimerService],

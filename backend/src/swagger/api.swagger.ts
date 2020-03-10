@@ -1,9 +1,7 @@
 import { INestApplication } from "@nestjs/common";
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { GroupsModule } from "../groups/groups.module";
-import { ArtistsModule } from "../artists/artists.module";
 import { AuthModule } from "../auth/auth.module";
-import { TagsModule } from "../tags/tags.module";
+import { QuoteModule } from "../quotes/quotes.module";
 import { TimerModule } from "../timers/timer.module";
 
 export function apiDocumentation(app: INestApplication): void {
@@ -24,39 +22,21 @@ export function apiDocumentation(app: INestApplication): void {
     .addTag(`Timer`)
     .build();
 
-    const groupAPI = new DocumentBuilder()
-    .setTitle(`CRUD Operations on Group in Soul Lyrics`)
-    .setDescription('Groups Module contains API to CRUD Groups / Categories under Soul Lyrics')
-    .setVersion('2.0')
-    .addTag('Groups')
-    .build();
-
-    const artistAPI = new DocumentBuilder()
-    .setTitle('CRUD Operatoins on Artist in Soul Lyrics')
-    .setDescription('Atists Module contains API to CRUD Artist / Singers defined in Soul Lyrics')
-    .setVersion('2.0')
-    .addTag('Artists')
-    .build();
-
-    
-
-    const tagAPI = new DocumentBuilder()
-    .setTitle('CRUD Operations on Tags in Soul Lyrics')
-    .setDescription('Tags Module contains API to CRUD Tags under Soul Lyrics')
-    .setVersion('2.0')
-    .addTag('Tags')
+    const quoteAPI = new DocumentBuilder()
+    .setTitle(`CRUD Operations on Quotations in ${APP_NAME}`)
+    .setDescription(`Quote Module contains API to CRUD Quotations under ${APP_NAME}`)
+    .setVersion(VERSION)
+    .addTag('Quotes, Quotations')
     .build();
 
     const document01 = SwaggerModule.createDocument(app, authAPI, {include: [AuthModule], });
     const document02 = SwaggerModule.createDocument(app, timerAPI, {include: [TimerModule], });
-    const document03 = SwaggerModule.createDocument(app, groupAPI, {include: [GroupsModule], });
-    const document04 = SwaggerModule.createDocument(app, tagAPI, {include: [TagsModule], });
-    const document05 = SwaggerModule.createDocument(app, artistAPI, {include: [ArtistsModule], });
+    const document03 = SwaggerModule.createDocument(app, quoteAPI, {include: [QuoteModule], });
+
 
     SwaggerModule.setup('swagger/api/auth', app, document01);
-    SwaggerModule.setup('swagger/api/timers', app, document02);
-    SwaggerModule.setup('swagger/api/artists', app, document02);
-    SwaggerModule.setup('swagger/api/tags', app, document04);
-    SwaggerModule.setup('swagger/api/drafts', app, document05);
+    SwaggerModule.setup('swagger/api/timer', app, document02);
+    SwaggerModule.setup('swagger/api/quotes', app, document03);
+
 
 };

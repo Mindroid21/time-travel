@@ -2,49 +2,49 @@ import { Injectable, Logger, BadRequestException, InternalServerErrorException }
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 // custom
-import { ITag } from './../models/tags.model';
+import { IQuote } from './../models/quotes.model';
 
 @Injectable()
-export class TagsService {
+export class QuoteService {
     private logger: Logger;
 
     constructor (
-        @InjectModel('Tag') private readonly tagModel: Model<ITag>
+        @InjectModel('Quote') private readonly quoteModel: Model<IQuote>
     ) { 
         this.logger = new Logger ('TagService');
     }
 
     /**
-     * Returns all tags
+     * Returns all quotes
      * @returns Promise<any>
      */
-    async getAllTags (): Promise<any> {
-        return await this.tagModel.find({});
+    async getAllQuotes (): Promise<any> {
+        return await this.quoteModel.find({});
     }
 
     /**
-     * Get a specific tag record by id
+     * Get a specific quote record by id
      * @param {string} id
      * @returns Promise<any>
      */
-    async getTagById (id: string): Promise<any> {
+    async getQuoteById (id: string): Promise<any> {
         try {
-            return await this.tagModel.find({_id: id});
+            return await this.quoteModel.find({_id: id});
         } catch (err) {
-            throw new BadRequestException(`Invalid Tag ID`);
+            throw new BadRequestException(`Invalid Quote ID`);
         }
     }
 
     /**
      * Add a new record to Tag model
-     * @param {ITag} tag
+     * @param {IQuote} tag
      * @returns Promise<string> id of the record created
      */
-    async addTag (tag: ITag): Promise<string> {
-        const { name, description } = tag;
+    async addQuote (quote: IQuote): Promise<string> {
+        const { title, description } = quote;
         try {
-            const newRecord = new this.tagModel({
-                name,
+            const newRecord = new this.quoteModel ({
+                title,
                 description
             });
             const result = await newRecord.save();
@@ -62,13 +62,13 @@ export class TagsService {
     /**
      * Update existing record with new details
      * @param {string} id 
-     * @param {ITag} tag
+     * @param {IQuote} tag
      * @returns Promise<string> id of the record updated
      */
-    async updateTagById (id: string, tag: ITag): Promise<string> {
-        const { name, description } = tag;
-        const record = await this.tagModel.findOneAndUpdate({_id: id}, {
-            name, description
+    async updateQuoteById (id: string, quote: IQuote): Promise<string> {
+        const { title, description } = quote;
+        const record = await this.quoteModel.findOneAndUpdate({_id: id}, {
+            title, description
         }, { new: true });
         return record.id;
     }
@@ -78,8 +78,8 @@ export class TagsService {
      * @param id 
      * @returns Promise<any>
      */
-    async deleteTagById (id: string): Promise<any> {
-        return await this.tagModel.deleteOne({_id: id});
+    async deleteQuoteById (id: string): Promise<any> {
+        return await this.quoteModel.deleteOne({_id: id});
     }
 
 }

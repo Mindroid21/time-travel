@@ -3,10 +3,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { MongooseModule } from '@nestjs/mongoose';
 // custom
-import { GroupsController } from './controllers/groups.controller';
-import { GroupsService } from './services/groups.service';
-import { GroupSchema } from './models/groups.model';
+import { QuoteController } from './controllers/quotes.controller';
+import { QuoteService } from './services/quotes.service';
 import { jwtSecret } from '../auth/config/jwt.config';
+import { QuoteSchema } from './models/quotes.model';
 
 @Module({
   imports: [
@@ -21,19 +21,13 @@ import { jwtSecret } from '../auth/config/jwt.config';
     }),
     MongooseModule.forFeature([
         {
-            name: 'Group',
-            schema: GroupSchema
+            name: 'Quote',
+            schema: QuoteSchema
         }
     ])
   ],
-  providers: [
-    GroupsService
-  ],
-  controllers: [
-    GroupsController
-  ],
-  exports: [
-    GroupsService
-  ]
+  controllers: [QuoteController],
+  providers: [QuoteService],
+  exports: [QuoteService]
 })
-export class GroupsModule {}
+export class QuoteModule {}

@@ -4,7 +4,6 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 // custom
 import {useStyles} from './login.style';
@@ -12,9 +11,11 @@ import RegisterButton from '../../components/buttons/register-button/RegisterBut
 import logo from './../../assets/logo.png';
 import { authenticateUser } from './../../common/async/AsyncCalls';
 import { addLocalStorageItem } from './../../common/helper/LocalStorageProvider';
+import { LinearLoader } from './../../components/loaders/linear-loader/LinearLoader';
 // context
 import { RouterDispatchContext, NAMED_ROUTES } from './../../router/context/RouterContext';
 import {AppStateContext} from './../../common/context/AppContext';
+
 
 const LoginView : FunctionComponent = () => {
     const classes = useStyles();
@@ -24,7 +25,7 @@ const LoginView : FunctionComponent = () => {
     const [username,setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg,setErrMsg] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(false);
 
     // event handlers
     const handleChange = (prop: any) => (event: any) => {
@@ -38,20 +39,16 @@ const LoginView : FunctionComponent = () => {
         }
     };
 
-    const handleLogin = () => {
-        dispatch ({
-            type: NAMED_ROUTES.APP
-        });
-    }
-
     const authenticate = async (evt: any) => {
         setLoading(true);
         evt.preventDefault();
         authenticateUser({username, password})
         .then(res => {
-          addLocalStorageItem ('token', res.data.accessToken);          
-          setLoading(false);
-          window.location.href = '#/app';
+            addLocalStorageItem ('token', res.data.accessToken);          
+            setLoading(false);
+            dispatch ({
+                type: NAMED_ROUTES.APP
+            });
 
         })
         .catch(err => {
@@ -69,6 +66,7 @@ const LoginView : FunctionComponent = () => {
                         <Typography color="textSecondary" align="center" className={classes.title}>
                             {`Time Travel v${appContext.version}`}
                         </Typography>
+                        <LinearLoader display={isLoading}/>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -92,7 +90,7 @@ const LoginView : FunctionComponent = () => {
                             autoComplete="current-password"
                             onBlur={handleChange}/>
                         <Button
-                            onClick={handleLogin}
+                            onClick={authenticate}
                             fullWidth
                             variant="contained"
                             color="secondary"

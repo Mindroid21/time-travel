@@ -87,6 +87,7 @@ export const useStyles = makeStyles((theme: Theme) =>
         marginBottom: theme.spacing(1),
       },
       routeLink: {
+        cursor: 'pointer',
         color: theme.palette.secondary.main,
         textDecoration: 'none',
         '&:hover': {

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useState } from 'react';
+import React, { FunctionComponent, useContext, useState, useEffect } from 'react';
 // material
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -15,6 +15,8 @@ import { LinearLoader } from './../../components/loaders/linear-loader/LinearLoa
 // context
 import { RouterDispatchContext, NAMED_ROUTES } from './../../router/context/RouterContext';
 import {AppStateContext} from './../../common/context/AppContext';
+import { getUserDetails } from './../../common/async/AsyncCalls';
+import { getLocalStorageItem } from './../../common/helper/LocalStorageProvider';
 
 
 const LoginView : FunctionComponent = () => {
@@ -25,10 +27,27 @@ const LoginView : FunctionComponent = () => {
     const [username,setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg,setErrMsg] = useState('');
-    const [isLoading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(true);
+
+    // life-cycle
+    const fetchLoggedInUserDetails = () => {
+        const token: string = getLocalStorageItem('token');
+        console.log('Token is: ', token);
+        getUserDetails(token)
+        .then((res: any) => {
+            setLoading(false);
+            console.log('User details are: ', res.data);
+            dispatch ({
+                type: NAMED_ROUTES.APP
+            });
+        }, err => {
+            setLoading(false);
+            console.log('Error fetching user details: ', err);
+        });
+    };
 
     // event handlers
-    const handleChange = (prop: any) => (event: any) => {
+    const handleChange = (event: any) => {
         if (event.target.value !== '') {
             setErrMsg('');
         }
@@ -56,6 +75,14 @@ const LoginView : FunctionComponent = () => {
           setErrMsg(`INVALID USERNAME / PASSWORD`);
         });
     };
+
+    // componentDidMount
+    useEffect(()=>{
+        // step 1 - check if session ID is valid
+        setTimeout(()=>{
+            fetchLoggedInUserDetails();
+        },1000);
+    },[]);
 
     return (
         <React.Fragment>

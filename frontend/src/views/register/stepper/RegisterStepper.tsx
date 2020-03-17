@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FunctionComponent } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 // material
 import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -11,17 +12,13 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { StepIconProps } from '@material-ui/core/StepIcon';
 import Grid from '@material-ui/core/Grid';
+// custom
+import { IRegisterData, registerUser } from './../../../common/async/AsyncCalls';
+import { LinearLoader } from './../../../components/loaders/linear-loader/LinearLoader';
 // styles
 import { QontoConnector, useQontoStepIconStyles, useStyles } from './register-stepper.style';
 
-interface IUserCredentials {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-};
-
-function QontoStepIcon(props: StepIconProps) {
+const QontoStepIcon: FunctionComponent<StepIconProps> = (props) => {
   const classes = useQontoStepIconStyles();
   const { active, completed } = props;
 
@@ -34,7 +31,7 @@ function QontoStepIcon(props: StepIconProps) {
       {completed ? <Check className={classes.completed} /> : <div className={classes.circle} />}
     </div>
   );
-}
+};
 
 
 
@@ -54,10 +51,15 @@ export default function RegisterStepper() {
   const [isContinueDisabled, setContinueDisabled] = useState(true);
   const [isRegisterDisabled, setRegisterDisabled] = useState(true);
   const [errMsg, setErrMsg] = useState('');
+  const [isLoading, setLoading] = useState(false);
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
+
+  const handleRegisterReset = () => {
+    setActiveStep(0);
+  }
 
   const handleFirstNameChange = (evt: any) => {
     if (evt.target.value !=='') {
@@ -99,6 +101,28 @@ export default function RegisterStepper() {
       setRegisterDisabled(false);
     }
   };
+
+  useEffect(()=>{
+    if (activeStep === 2) {
+      // console.log('Registration Done !');
+      setLoading(true);
+      const registerData: IRegisterData = { 
+        username: email,
+        firstName: firstName,
+        lastName: lastName,
+        password: password
+      };
+      console.log('User Details to register: ', registerData);
+      registerUser(registerData)
+      .then (res => {
+        setLoading(false); 
+      }, err => {
+        setLoading(false);
+        console.log('Error with register: ', err);
+        setErrMsg(`Error with register, please try differnt email / password`);
+      });
+    }
+  },[activeStep]);
   // side-effect #2
   useEffect(()=>{
     if (activeStep === 0) {
@@ -182,7 +206,23 @@ export default function RegisterStepper() {
             </Button>
         </React.Fragment>
       )
-    } else if (activeStep === 2) {
+    } else if (activeStep === 2 && isLoading) {
+      setContent (
+        <React.Fragment>
+          <LinearLoader display={isLoading}/>
+        </React.Fragment>
+      );
+    } else if (activeStep === 2 && errMsg !== '') {
+      setContent (
+        <React.Fragment>
+          <Typography color="textSecondary" align="center">
+            Oops! an error occured!!, <br/>
+            <Link className={classes.routeLink} onClick={handleRegisterReset}>Please try again !!</Link>
+          </Typography>
+        </React.Fragment>
+      )
+    } 
+    else {
       setContent (
         <React.Fragment>
           <Typography color="textSecondary" align="center">
@@ -191,14 +231,8 @@ export default function RegisterStepper() {
           </Typography>
         </React.Fragment>
       );
-    } else {
-      setContent (
-        <Typography color="textSecondary" align="center">
-          Register in just 3 simple steps
-        </Typography>
-      )
     }
-  },[activeStep, isContinueDisabled, isRegisterDisabled, errMsg, classes.routeLink]);
+  },[activeStep, isContinueDisabled, isRegisterDisabled, errMsg, classes.routeLink, isLoading]);
 
   return (
     <div className={classes.root}>

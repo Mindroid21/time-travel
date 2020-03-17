@@ -14,6 +14,7 @@ export enum NAMED_ROUTES {
     APP = 'app',
     ABOUT = 'about',
     TIMER = 'timer',
+    TODO = 'todo',
     QUOTES = 'quotes',
     PREVIEW = 'preview',
     LOGIN = 'login',
@@ -76,6 +77,14 @@ const useRouterContextReducer = (state: IRouterContextState, action: {type: NAME
             };
             history.push (location);
             return {...state, name: NAMED_ROUTES.QUOTES};
+
+        case NAMED_ROUTES.TODO:
+            console.log(`Dispatch Route: ${NAMED_ROUTES.TODO}`);
+            location = {
+                pathname: `/${NAMED_ROUTES.TODO}`
+            };
+            history.push (location);
+            return {...state, name: NAMED_ROUTES.TODO};
 
         case NAMED_ROUTES.PREVIEW:
             console.log(`Dispatch Route: ${NAMED_ROUTES.PREVIEW}`);

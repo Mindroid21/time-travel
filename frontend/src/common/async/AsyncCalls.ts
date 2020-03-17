@@ -31,6 +31,7 @@ export interface IRegisterData {
  * @param data ILoginData - provide username, password
  */
 export const authenticateUser = async (data: ILoginData) => {
+    console.log('username & password: ', data);
     return axios.post('/auth/login', data);
 };
 

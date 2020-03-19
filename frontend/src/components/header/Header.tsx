@@ -7,8 +7,6 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
@@ -22,6 +20,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import { HeaderStateContext } from './context/HeaderContext';
 import { NAMED_ROUTES } from './../../router/context/RouterContext';
 import { getCamelCase } from './../../common/helper/LocalStorageProvider';
+import { HeaderPanels } from './panels/HeaderPanels';
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
@@ -59,6 +58,9 @@ const Header: FunctionComponent<IHeaderProps> = (props)=>{
 
   useEffect(()=>{
     switch (headerContext.name) {
+      case NAMED_ROUTES.ABOUT:
+        setHeaderValue({name: getCamelCase(headerContext.name), icon: <HomeIcon/>});
+        break;
       case NAMED_ROUTES.TIMER:
         setHeaderValue({name: getCamelCase(headerContext.name), icon: <TimerIcon/>});
         break;
@@ -131,10 +133,7 @@ const Header: FunctionComponent<IHeaderProps> = (props)=>{
         position="static"
         elevation={0}
       >
-        <Tabs value={0} textColor="inherit">
-          <Tab textColor="inherit" label="All" />
-          <Tab textColor="inherit" label="Add New +" />
-        </Tabs>
+        <HeaderPanels route={headerContext.name}/>
       </AppBar>
     </React.Fragment>
   );

@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 // custom
 import { HeaderDispatchContext } from './../../header/context/HeaderContext';
+import { DASHBOARD_ROUTES, DashboardRouterDispatchContext } from './../../../layouts/dashboard/context/DashboardRouterContext';
 import { NAMED_ROUTES } from './../../../router/context/RouterContext';
 
 export interface IMainMenuProps {
@@ -15,11 +16,16 @@ export interface IMainMenuProps {
 
 export const MainMenuItem : FunctionComponent <IMainMenuProps> = (props) : JSX.Element => {
     const {classes} = props;
-    const dispatch: any = useContext(HeaderDispatchContext);
+    const headerDispatch: any = useContext(HeaderDispatchContext);
+    const dashboardRouteDispatch: any = useContext(DashboardRouterDispatchContext);
 
     const handleAbout = () => {
-        dispatch ({
+        headerDispatch ({
             type: NAMED_ROUTES.ABOUT
+        });
+        // TODO - Check if route is same, then DONT dispatch
+        dashboardRouteDispatch({
+            type: DASHBOARD_ROUTES.ABOUT
         });
     };
 

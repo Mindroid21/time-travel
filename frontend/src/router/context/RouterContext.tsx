@@ -62,6 +62,14 @@ const useRouterContextReducer = (state: IRouterContextState, action: {type: NAME
             history.push (location);
             return {...state, name: NAMED_ROUTES.APP};
 
+    case NAMED_ROUTES.ABOUT:
+            console.log(`Dispatch Route: ${NAMED_ROUTES.ABOUT}`);
+            location = {
+                pathname: `/${NAMED_ROUTES.ABOUT}`
+            };
+            history.push (location);
+            return {...state, name: NAMED_ROUTES.ABOUT};
+
         case NAMED_ROUTES.TIMER:
             console.log(`Dispatch Route: ${NAMED_ROUTES.TIMER}`);
             location = {

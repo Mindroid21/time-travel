@@ -4,7 +4,7 @@
  */
 import React, { FunctionComponent } from 'react';
 // custom
-import { NAMED_ROUTES, IRouterContextState } from './../../../router/context/RouterContext';
+import { NAMED_ROUTES } from './../../../router/context/RouterContext';
 
 export type IHeaderContextState = {
     name: NAMED_ROUTES,

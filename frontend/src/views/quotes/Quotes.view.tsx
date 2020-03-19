@@ -10,9 +10,9 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 // custom
-import { useStyles } from './timer.styles';
+import { useStyles } from './quotes.styles';
 
-const TimerView: FunctionComponent = () => {
+const QuotesView: FunctionComponent = () => {
     const classes = useStyles();
     
     return (
@@ -45,11 +45,11 @@ const TimerView: FunctionComponent = () => {
       </AppBar>
       <div className={classes.contentWrapper}>
         <Typography color="textSecondary" align="center">
-          Timer View comes here
+          Quotes View comes here
         </Typography>
       </div>
         </React.Fragment>
     );
 };
 
-export default TimerView;
+export default QuotesView;

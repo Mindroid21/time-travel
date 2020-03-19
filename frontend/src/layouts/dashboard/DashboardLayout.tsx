@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 // custom
 import Sidebar from '../../components/sidebar/Sidebar';
-import Content from '../content/Content';
+import DashboardRouter from './router/DashboardRouter';
 import Header from '../../components/header/Header';
 import Copyright from '../../components/copy/CopyRight';
 import { useStyles, drawerWidth } from './dashboard-layout.styles';
@@ -13,6 +13,7 @@ import CloseActionButton from './../../components/buttons/close-button/CloseActi
 import { getUserDetails } from './../../common/async/AsyncCalls';
 import { getLocalStorageItem } from './../../common/helper/LocalStorageProvider';
 import { HeaderContextProvider } from './../../components/header/context/HeaderContext';
+import { DashboardRouterContextProvider } from './../../layouts/dashboard/context/DashboardRouterContext';
 
 const DashboardLayout: FunctionComponent = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -55,29 +56,31 @@ const DashboardLayout: FunctionComponent = () => {
 
     return (
     <React.Fragment>
-      <HeaderContextProvider>
-        <div className={classes.root}>
-          <CssBaseline />
-          <nav className={classes.drawer}>
-            <Hidden smUp implementation="js">
-              <Sidebar PaperProps={{ style: { width: drawerWidth } }} variant="temporary" open={mobileOpen}
-                onClose={handleDrawerToggle} />
-            </Hidden>
-            <Hidden xsDown implementation="css">
-              <Sidebar PaperProps={{ style: { width: drawerWidth } }} />
-            </Hidden>
-          </nav>
-          <div className={classes.app}>
-            <Header onDrawerToggle={handleDrawerToggle} />
-            <main className={classes.main}>
-              <Content />
-            </main>
-            <footer className={classes.footer}>
-              <Copyright />
-            </footer>
+      <DashboardRouterContextProvider>
+        <HeaderContextProvider>
+          <div className={classes.root}>
+            <CssBaseline />
+            <nav className={classes.drawer}>
+              <Hidden smUp implementation="js">
+                <Sidebar PaperProps={{ style: { width: drawerWidth } }} variant="temporary" open={mobileOpen}
+                  onClose={handleDrawerToggle} />
+              </Hidden>
+              <Hidden xsDown implementation="css">
+                <Sidebar PaperProps={{ style: { width: drawerWidth } }} />
+              </Hidden>
+            </nav>
+            <div className={classes.app}>
+              <Header onDrawerToggle={handleDrawerToggle} />
+              <main className={classes.main}>
+                <DashboardRouter />
+              </main>
+              <footer className={classes.footer}>
+                <Copyright />
+              </footer>
+            </div>
           </div>
-        </div>
-      </HeaderContextProvider>
+        </HeaderContextProvider>
+      </DashboardRouterContextProvider>
     </React.Fragment>
     );
 

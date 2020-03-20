@@ -31,7 +31,7 @@ export const HeaderPanels: FunctionComponent<IHeaderPanels> = (props) => {
                 setContent(
                     <React.Fragment>
                         <Tabs value={0} textColor="inherit">
-                            <Tab textColor="inherit" label="version 1.0" />
+                            <Tab textColor="inherit" label="v 1.0.0" />
                         </Tabs>
                     </React.Fragment>
                 );

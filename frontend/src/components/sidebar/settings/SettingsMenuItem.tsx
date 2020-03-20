@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
 import clsx from 'clsx';
+import { FaCanadianMapleLeaf } from 'react-icons/fa';
 // material
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -10,6 +11,8 @@ import ExitIcon from '@material-ui/icons/ExitToApp';
 // custom
 import { NAMED_ROUTES, RouterDispatchContext } from './../../../router/context/RouterContext';
 import { removeLocalStorageItem } from './../../../common/helper/LocalStorageProvider';
+import { DashboardRouterDispatchContext, DASHBOARD_ROUTES } from '../../../layouts/dashboard/context/DashboardRouterContext';
+import { HeaderDispatchContext } from '../../header/context/HeaderContext';
 
 
 export interface ISettingsMenuItem {
@@ -18,13 +21,27 @@ export interface ISettingsMenuItem {
 
 export const SettingsMenuItem : FunctionComponent <ISettingsMenuItem> = (props) : JSX.Element => {
     const { classes } = props;
-    const dispatch: any = useContext(RouterDispatchContext);
+    const routeDispatch: any = useContext(RouterDispatchContext);
+    const dashboardRouteDispatch: any = useContext(DashboardRouterDispatchContext);
+    const headerDispatch: any = useContext(HeaderDispatchContext);
+    // event handlers
+    const handleSettings = () => {
+      headerDispatch ({
+        type: NAMED_ROUTES.SETTINGS
+      });
+
+      dashboardRouteDispatch ({
+        type: DASHBOARD_ROUTES.SETTINGS
+      });
+
+    };
+
     const handleLogout = () => {
       console.log('Calling Logout!');
       removeLocalStorageItem('token');
-      dispatch({
+      routeDispatch ({
         type: NAMED_ROUTES.LOGIN
-      })
+      });
     };
 
     const categories = [
@@ -34,6 +51,12 @@ export const SettingsMenuItem : FunctionComponent <ISettingsMenuItem> = (props) 
           { 
             id: 'Settings', 
             icon: <SettingsIcon />,
+            active: false,
+            action: handleSettings
+          },
+          { 
+            id: 'Landscape mode', 
+            icon: <FaCanadianMapleLeaf />,
             active: false,
             action: ()=>{}
           },

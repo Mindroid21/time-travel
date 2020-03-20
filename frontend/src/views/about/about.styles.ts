@@ -15,5 +15,16 @@ export const useStyles = makeStyles(theme => ({
       },
       contentWrapper: {
         margin: '40px 16px',
-      }, 
+      },
+      activeLink: {
+        color: '#4fc3f7',
+        textDecoration: 'none',
+        cursor: 'pointer',
+        '&:hover': {
+          textDecoration: 'underline',
+        }
+      },
+      highlightText: {
+        color: '#FF5CB0'
+      }
 }));

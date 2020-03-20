@@ -41,9 +41,9 @@ const useHeaderContextReducer = (state: IHeaderContextState, action: {type: NAME
 
         case NAMED_ROUTES.TODO:
             return {...state, name: NAMED_ROUTES.TODO};
-
-        case NAMED_ROUTES.PREVIEW:
-            return {...state, name: NAMED_ROUTES.PREVIEW};
+            
+        case NAMED_ROUTES.SETTINGS:
+            return {...state, name: NAMED_ROUTES.SETTINGS};
                 
         default:
             throw new Error(`Sorry...Unknown Header NAME: ${action.type}`);

@@ -16,6 +16,7 @@ export enum NAMED_ROUTES {
     TIMER = 'timer',
     TODO = 'todo',
     QUOTES = 'quotes',
+    SETTINGS = 'settings',
     PREVIEW = 'preview',
     LOGIN = 'login',
     REGISTER = 'register',

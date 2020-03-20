@@ -16,6 +16,7 @@ import TimerIcon from '@material-ui/icons/Timer';
 import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import HomeIcon from '@material-ui/icons/Home';
+import SettingsIcon from '@material-ui/icons/Settings';
 // custom
 import { HeaderStateContext } from './context/HeaderContext';
 import { NAMED_ROUTES } from './../../router/context/RouterContext';
@@ -69,6 +70,9 @@ const Header: FunctionComponent<IHeaderProps> = (props)=>{
         break;
       case NAMED_ROUTES.TODO:
         setHeaderValue({name: getCamelCase(headerContext.name), icon: <DnsRoundedIcon/>});
+        break;
+      case NAMED_ROUTES.SETTINGS:
+        setHeaderValue({name: getCamelCase(headerContext.name), icon: <SettingsIcon/>});
         break;
       default:
         setHeaderValue({name: getCamelCase('App'), icon: <HomeIcon/>});

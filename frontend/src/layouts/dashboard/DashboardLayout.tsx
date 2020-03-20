@@ -19,7 +19,6 @@ const DashboardLayout: FunctionComponent = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [userName, setUserName] = useState('');
     const classes = useStyles();
-
     //snackBar
   const { enqueueSnackbar} = useSnackbar();
   // notificationBox action - OK
@@ -52,6 +51,7 @@ const DashboardLayout: FunctionComponent = () => {
 
   useEffect(()=>{
     fetchLoggedInUserDetails();
+    // implement perfect scrollbar
   },[]);
 
     return (
@@ -71,7 +71,7 @@ const DashboardLayout: FunctionComponent = () => {
             </nav>
             <div className={classes.app}>
               <Header onDrawerToggle={handleDrawerToggle} />
-              <main className={classes.main}>
+              <main className={classes.main} id="container">
                 <DashboardRouter />
               </main>
               <footer className={classes.footer}>

@@ -21,6 +21,7 @@ export interface ITimerResponse {
     sDate: number;
     eDate: number;
     status: TIMER_STATUS;
+    link: string;
 }
 
 /**
@@ -35,6 +36,7 @@ export interface ITimer {
     sDate: number;
     eDate: number;
     status: TIMER_STATUS;
+    link: string;
 }
 
 /**
@@ -69,7 +71,13 @@ export const TimerSchema = new Schema({
         default: Date.now()
     },
     status: {
+        type: String,
+        required: 'Provide status of the timer',
+        default: TIMER_STATUS.ACTIVE
+    },
+    link: {
         type: String,        
-        required: 'Provide the status of the song draft'
+        required: 'Provide a link to task / some article / image',
+        default: 'https://timely-travel.herokuapp.com/'
     },
 });

@@ -35,6 +35,7 @@ export class TimerController {
             eDate: Date.now(),
             isTask: false,
             status: TIMER_STATUS.ACTIVE,
+            link: '',
             };
         return item;
     }
@@ -65,7 +66,8 @@ export class TimerController {
                 draftItem.sDate = item.sDate;
                 draftItem.eDate = item.eDate;
                 draftItem.isTask = item.isTask;                
-                draftItem.status = item.status;                
+                draftItem.status = item.status;     
+                draftItem.link = item.link;           
                 return draftItem;
         } catch (err) {
             this.logger.verbose(`Error fetching details for the record: ${JSON.stringify(item)} - ${JSON.stringify(err)}`);

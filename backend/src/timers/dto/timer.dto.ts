@@ -42,6 +42,10 @@ export class TimerDetailsDto {
     @IsNotEmpty()
     @IsIn([ TIMER_STATUS.ACTIVE, TIMER_STATUS.COMPLETED ])
     status: TIMER_STATUS;
+
+    @ApiModelProperty()
+    @IsOptional()
+    link: string;
 }
 
 export class TimerParamIdDto {

@@ -7,11 +7,11 @@ import React, { FunctionComponent, useState, useEffect } from 'react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 // custom
-import { NAMED_ROUTES } from '../../../router/context/RouterContext';
+import { HEADER_ACTION } from './../context/HeaderContext';
 import { TimerPanel } from './timer/TimerPanel';
 
 export interface IHeaderPanels {
-    route: NAMED_ROUTES
+    route: HEADER_ACTION
 }
 
 export const HeaderPanels: FunctionComponent<IHeaderPanels> = (props) => {
@@ -20,14 +20,14 @@ export const HeaderPanels: FunctionComponent<IHeaderPanels> = (props) => {
     // side-effects
     useEffect(()=>{
         switch (route) {
-            case NAMED_ROUTES.TIMER:
+            case HEADER_ACTION.TIMER:
                 setContent(
                     <React.Fragment>
                         <TimerPanel/>
                     </React.Fragment>
                 );
                 break;
-            case NAMED_ROUTES.ABOUT:
+            case HEADER_ACTION.ABOUT:
                 setContent(
                     <React.Fragment>
                         <Tabs value={0} textColor="inherit">

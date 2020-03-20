@@ -18,8 +18,7 @@ import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import HomeIcon from '@material-ui/icons/Home';
 import SettingsIcon from '@material-ui/icons/Settings';
 // custom
-import { HeaderStateContext } from './context/HeaderContext';
-import { NAMED_ROUTES } from './../../router/context/RouterContext';
+import { HeaderStateContext, HEADER_ACTION } from './context/HeaderContext';
 import { getCamelCase } from './../../common/helper/LocalStorageProvider';
 import { HeaderPanels } from './panels/HeaderPanels';
 
@@ -59,19 +58,19 @@ const Header: FunctionComponent<IHeaderProps> = (props)=>{
 
   useEffect(()=>{
     switch (headerContext.name) {
-      case NAMED_ROUTES.ABOUT:
+      case HEADER_ACTION.ABOUT:
         setHeaderValue({name: getCamelCase(headerContext.name), icon: <HomeIcon/>});
         break;
-      case NAMED_ROUTES.TIMER:
+      case HEADER_ACTION.TIMER:
         setHeaderValue({name: getCamelCase(headerContext.name), icon: <TimerIcon/>});
         break;
-      case NAMED_ROUTES.QUOTES:
+      case HEADER_ACTION.QUOTES:
         setHeaderValue({name: getCamelCase(headerContext.name), icon: <SettingsEthernetIcon/>});
         break;
-      case NAMED_ROUTES.TODO:
+      case HEADER_ACTION.TODO:
         setHeaderValue({name: getCamelCase(headerContext.name), icon: <DnsRoundedIcon/>});
         break;
-      case NAMED_ROUTES.SETTINGS:
+      case HEADER_ACTION.SETTINGS:
         setHeaderValue({name: getCamelCase(headerContext.name), icon: <SettingsIcon/>});
         break;
       default:

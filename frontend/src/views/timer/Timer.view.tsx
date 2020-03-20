@@ -10,18 +10,14 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 // custom
-import SimpleCard from './../../components/card/SimpleCard';
+import EmptyTimer from './sections/empty/EmptyTimer';
 import { useStyles } from './timer.styles';
 
 const TimerView: FunctionComponent = () => {
     const classes = useStyles();
     
     return (
-        <SimpleCard>
-            <Typography color="textSecondary" align="center">
-              Click on <strong>Add New +</strong> to add Timer
-            </Typography>
-        </SimpleCard>
+        <EmptyTimer/>
     );
 };
 

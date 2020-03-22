@@ -18,6 +18,7 @@ export interface ITimerResponse {
     createdBy: IDisplayUser;
     description: string;
     isTask: boolean;
+    isCountDown: boolean;
     sDate: number;
     eDate: number;
     status: TIMER_STATUS;
@@ -33,6 +34,7 @@ export interface ITimer {
     createdBy: string;
     description: string;
     isTask: boolean;
+    isCountDown: boolean;
     sDate: number;
     eDate: number;
     status: TIMER_STATUS;
@@ -59,6 +61,11 @@ export const TimerSchema = new Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    isCountDown: {
+        type: Boolean,
+        required: true,
+        default: true
     },
     sDate: {
         type: Number,

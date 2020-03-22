@@ -34,6 +34,7 @@ export class TimerController {
             sDate: Date.now(),
             eDate: Date.now(),
             isTask: false,
+            isCountDown: true,
             status: TIMER_STATUS.ACTIVE,
             link: '',
             };
@@ -66,6 +67,7 @@ export class TimerController {
                 draftItem.sDate = item.sDate;
                 draftItem.eDate = item.eDate;
                 draftItem.isTask = item.isTask;                
+                draftItem.isCountDown = item.isCountDown;                
                 draftItem.status = item.status;     
                 draftItem.link = item.link;           
                 return draftItem;

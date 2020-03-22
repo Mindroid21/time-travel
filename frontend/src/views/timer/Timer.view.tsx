@@ -11,13 +11,17 @@ import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 // custom
 import EmptyTimer from './sections/empty/EmptyTimer';
+import AddTimer from './sections/add/AddTimer';
 import { useStyles } from './timer.styles';
 
 const TimerView: FunctionComponent = () => {
     const classes = useStyles();
     
     return (
-        <EmptyTimer/>
+        <React.Fragment>
+            <AddTimer/>
+            <EmptyTimer/>
+        </React.Fragment>
     );
 };
 

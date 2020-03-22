@@ -22,7 +22,14 @@ export class TimerDetailsDto {
     @ApiModelProperty({
         required: true
     })
+    @IsNotEmpty()
     isTask: boolean;
+
+    @ApiModelProperty({
+        required: true
+    })
+    @IsNotEmpty()
+    isCountDown: boolean;
 
     @ApiModelProperty({
         required: true

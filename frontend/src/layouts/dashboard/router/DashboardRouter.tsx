@@ -17,7 +17,6 @@ const DashboardRouter: FunctionComponent<DashboardRouterProps> = (props) => {
   const { classes } = props;
 
   return (
-    <Paper className={classes.paper}>
       <Switch>                    
         <Route path="/app/about" component={AboutView} />
         <Route path="/app/timer" component={TimerView} />
@@ -26,7 +25,6 @@ const DashboardRouter: FunctionComponent<DashboardRouterProps> = (props) => {
         <Route path="/app/settings" component={SettingsView} />
         <Redirect from="/" to="/app/timer" />
       </Switch>
-    </Paper>
   );
 };
 

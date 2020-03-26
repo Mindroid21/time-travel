@@ -76,6 +76,10 @@ export const ColorlibConnector = withStyles({
   
 export const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+      centerDiv: {
+        display: 'flex',
+        justifyContent: 'center',
+      },
       root: {
         width: '100%',
       },

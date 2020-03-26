@@ -14,8 +14,11 @@ import { StepIconProps } from '@material-ui/core/StepIcon';
 import Grid from '@material-ui/core/Grid';
 // custom
 import { LinearLoader } from './../../../../../components/loaders/linear-loader/LinearLoader';
+import { SimpleSwitch } from './../../../../../components/switches/simple-switch/SimpleSwitch';
+import { TimerDateTime, ITimerData } from './../../../../../components/date-time/TimerDateTime';
 // styles
 import { QontoConnector, useQontoStepIconStyles, useStyles } from './add-timer-stepper.style';
+
 
 export interface IAddTimerData {
   title: string;
@@ -55,6 +58,8 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [content, setContent] = useState(<React.Fragment></React.Fragment>);
+  const [timerDateContent, setTimerDateContent] = useState('');
+  const [timerType, setTimerType] = useState(false);
   const steps = getSteps();
   const [timerTitle, setTimerTitle] = useState('');
   const [timerDescription, setTimerDescription] = useState('');
@@ -97,15 +102,16 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
     }
   };
 
-  const handleStartDateChange = (evt: any) => {
-    if (evt.target.value !=='') {
-      setStartDate (evt.target.value);
-    }
+  const handleTimerTypeSwitch = (status: boolean) => {
+    console.log('Switch status is: ', status);
+    setTimerType(status);
   };
 
-  const handleEndDateChange = (evt: any) => {
-    if (evt.target.value !=='') {
-      setEndDate (evt.target.value);
+  const handleDateTimeChange = (data: ITimerData) => {
+    if (timerType) {
+      console.log('Timer down is: ', data);
+    } else {
+      console.log('Timer up is: ', data);
     }
   };
 
@@ -130,6 +136,7 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
       setContent (
         <React.Fragment>
           <TextField
+            fullWidth
             variant="outlined"
             margin="normal"
             required
@@ -139,55 +146,100 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
             autoFocus
             onBlur={handleTimerTitleChange}/>
           <TextField
+            fullWidth
             variant="outlined"
             margin="normal"
-            fullWidth
             id="description"
             label="Enter Description"
             name="description"
             autoComplete="description"
             autoFocus
             onBlur={handleTimerDescriptionChange}/>
-          <Button
-            disabled={isContinueDisabled}
-            onClick={handleNext}
-            fullWidth
-            variant="contained"
-            color="primary">
-              Continue
-          </Button>
+            <Grid item xs={12} md={6}>
+              <Button
+              disabled={isContinueDisabled}
+              onClick={handleNext}
+              fullWidth
+              variant="contained"
+              color="secondary">
+                Next
+            </Button>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Button
+              disabled={true}
+              onClick={handleBack}
+              fullWidth
+              variant="contained"
+              color="default">
+                Back
+            </Button>
+            </Grid>
+            
         </React.Fragment>
       );
     } else if (activeStep === 1) {
       setContent(
         <React.Fragment>
-          <Typography>
-            Date Setters
-          </Typography>
-          <Button
-            disabled={isContinueDisabled}
-            onClick={handleNext}
-            fullWidth
-            variant="contained"
-            color="primary">
-              Continue
-          </Button>
+          <Grid item xs={12} md={12}>
+            <Typography color="textSecondary" align="center">
+              Choose Timer Type
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={12} className={classes.centerDiv}>
+            <SimpleSwitch onSwitch={handleTimerTypeSwitch}/>
+          </Grid>
+          <TimerDateTime />
+          <Grid item xs={12} md={6}>
+              <Button
+              disabled={isContinueDisabled}
+              onClick={handleNext}
+              fullWidth
+              variant="contained"
+              color="secondary">
+                Next
+            </Button>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Button
+              disabled={false}
+              onClick={handleBack}
+              fullWidth
+              variant="contained"
+              color="default">
+                Back
+            </Button>
+            </Grid>
         </React.Fragment>
       )
     } else if (activeStep === 2) {
       setContent (
         <React.Fragment>
-          <Typography>
-            Task Related ? Link Field
-          </Typography>
-          <Button
-            disabled={isContinueDisabled}
-            onClick={handleNext}
-            fullWidth
-            variant="contained"
-            color="primary">
-              Continue
-          </Button>
+          <Grid item xs={12} md={12}>
+            <Typography>
+              Link Setters
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+              <Button
+                disabled={isContinueDisabled}
+                onClick={handleNext}
+                fullWidth
+                variant="contained"
+                color="secondary">
+                  Next
+              </Button>
+          </Grid>
+          <Grid item xs={12} md={6}>
+              <Button
+                disabled={false}
+                onClick={handleBack}
+                fullWidth
+                variant="contained"
+                color="default">
+                  Back
+              </Button>
+          </Grid>
         </React.Fragment>
       );
     } else if (activeStep === 3) {
@@ -204,23 +256,49 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
       
       setContent (
         <React.Fragment>
-          <Typography color="textSecondary" align="center">
-            Congratulations! your are all set, <br/>
-            <RouterLink to="/login" className={classes.routeLink}>Next up: Login</RouterLink>
-          </Typography>
+          <Grid item xs={12} md={12}>
+            <Typography color="textSecondary" align="center">
+                Congratulations! your are all set, <br/>
+              <RouterLink to="/login" className={classes.routeLink}>Next up: Login</RouterLink>
+            </Typography>
+          </Grid>          
         </React.Fragment>
       )
     } 
     else {
       setContent (
         <React.Fragment>
-          <Typography color="textSecondary" align="center">
-            Success / Failure message <br/>
-          </Typography>
+          <Grid item xs={12} md={12}>
+            <Typography>
+              Date Setters
+            </Typography>
+          </Grid>
         </React.Fragment>
       );
     }
-  },[timerTitle, timerDescription, timerLink, endDate, startDate, activeStep, isContinueDisabled, isCountDownTimer, isTaskRelated, errMsg, classes.routeLink, isLoading]);
+  },[
+      isLoading,
+      timerType,
+      timerTitle, 
+      timerDescription, 
+      timerLink, 
+      endDate, 
+      startDate, 
+      activeStep, 
+      isContinueDisabled, 
+      isCountDownTimer, 
+      isTaskRelated, 
+      errMsg, 
+      classes.routeLink, 
+    ]);
+  
+  useEffect(()=>{
+    if(timerType) {
+      setTimerDateContent(`Countdown Timer (Until)`);
+    } else {
+      setTimerDateContent(`Countup Timer (Since)`);
+    }
+  },[timerType]);
 
   return (
     <div className={classes.root}>
@@ -231,7 +309,7 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
           </Step>
         ))}
       </Stepper>
-      <Grid item xs={12} md={12}>
+      <Grid container spacing={1}>
         {content}
       </Grid>
     </div>

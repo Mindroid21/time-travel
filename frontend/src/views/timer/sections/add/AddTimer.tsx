@@ -31,7 +31,7 @@ const AddTimer: FunctionComponent = () => {
         <Paper className={classes.paper}>
             <div className={classes.addNewTimerSection}>
                 <Typography color="textSecondary" align="left">
-                    <strong>Fill in the details to create a Timer -</strong>
+                    <strong>Create / Update a Timer, in 3 easy steps -</strong>
                 </Typography>
                 <AddTimerStepper onSubmit={handleAddTimerSubmit}/>
             </div>    

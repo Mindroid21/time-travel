@@ -1,5 +1,5 @@
 import 'date-fns';
-import React from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import MomentUtils from "@date-io/moment";
 import { makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
@@ -9,11 +9,11 @@ import {
     DatePicker
 } from "material-ui-pickers";
 
-export interface ITimerData {
-    type: string;
-    date: string;
-    time: string;
-};
+
+interface ITimerDateTimeProps {
+  date: Date;
+  onChange: (date: Date) => void;
+}
 
   
 const useStyles = makeStyles((theme: Theme) =>
@@ -48,15 +48,21 @@ const useStyles = makeStyles((theme: Theme) =>
     )
 );
 
-export function TimerDateTime() {
+export const TimerDateTime: FunctionComponent<ITimerDateTimeProps> = (props) => {
   // The first commit of Material-UI
-  const [selectedDate, setSelectedDate] = React.useState(Date.now());
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const classes = useStyles();
+  const { date, onChange } = props;
 
   const handleDateChange = (date: any) => {
     console.log('Data is: ', date);  
-    setSelectedDate(date);
+    onChange(date);
   };
+
+  // componentDidMount
+  useEffect(()=>{
+    setSelectedDate(date);
+  },[date]);
 
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -96,4 +102,4 @@ export function TimerDateTime() {
         </Grid>
     </MuiPickersUtilsProvider>
   );
-}
+};

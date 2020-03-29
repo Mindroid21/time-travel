@@ -15,7 +15,8 @@ import Grid from '@material-ui/core/Grid';
 // custom
 import { LinearLoader } from './../../../../../components/loaders/linear-loader/LinearLoader';
 import { SimpleSwitch } from './../../../../../components/switches/simple-switch/SimpleSwitch';
-import { TimerDateTime, ITimerData } from './../../../../../components/date-time/TimerDateTime';
+import { TimerDateTime } from './../../../../../components/date-time/TimerDateTime';
+import SimpleText from './../../../../../components/texts/SimpleText';
 // styles
 import { QontoConnector, useQontoStepIconStyles, useStyles } from './add-timer-stepper.style';
 
@@ -24,8 +25,8 @@ export interface IAddTimerData {
   title: string;
   description: string;
   link: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   isCountDownTimer: boolean;
   isTaskRelated: boolean;
 }
@@ -63,8 +64,7 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
   const steps = getSteps();
   const [timerTitle, setTimerTitle] = useState('');
   const [timerDescription, setTimerDescription] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [dateTime, setDateTime] = useState(new Date());
   const [timerLink, setTimerLink] = useState('');
   const [isCountDownTimer, toggleCountDownTimer] = useState(true);
   const [isTaskRelated, toggleTaskRelated] = useState(false);
@@ -107,19 +107,22 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
     setTimerType(status);
   };
 
-  const handleDateTimeChange = (data: ITimerData) => {
-    if (timerType) {
-      console.log('Timer down is: ', data);
-    } else {
-      console.log('Timer up is: ', data);
-    }
-  };
-
   const handleLinkChange = (evt: any) => {
     if (evt.target.value !=='') {
       setTimerLink (evt.target.value);
     }
   };
+
+  const handleDateTimeChange = (data: any) => {
+    if (timerType) {
+      console.log('Timer down is: ', data);
+    } else {
+      console.log('Timer up is: ', data);
+    }
+    setDateTime(data.toDate());
+  };
+
+  
 
   const handleToggleTimerType = () => {
     toggleCountDownTimer(prev => !prev);
@@ -144,6 +147,7 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
             label="Enter Title"
             name="title"
             autoFocus
+            defaultValue={timerTitle}
             onBlur={handleTimerTitleChange}/>
           <TextField
             fullWidth
@@ -154,6 +158,7 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
             name="description"
             autoComplete="description"
             autoFocus
+            defaultValue={timerDescription}
             onBlur={handleTimerDescriptionChange}/>
             <Grid item xs={12} md={6}>
               <Button
@@ -179,7 +184,7 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
         </React.Fragment>
       );
     } else if (activeStep === 1) {
-      setContent(
+      setContent (
         <React.Fragment>
           <Grid item xs={12} md={12}>
             <Typography color="textSecondary" align="center">
@@ -189,7 +194,11 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
           <Grid item xs={12} md={12} className={classes.centerDiv}>
             <SimpleSwitch onSwitch={handleTimerTypeSwitch}/>
           </Grid>
-          <TimerDateTime />
+          <TimerDateTime date={dateTime} onChange={handleDateTimeChange} />
+          <Grid item xs={12} md={12}>
+            <SimpleText 
+              content={`${timerTitle} ${timerDateContent} ${dateTime.getDay()} ${dateTime.getMonth()} @ ${dateTime.getHours()}: ${dateTime.getMinutes()}`}/>
+          </Grid>
           <Grid item xs={12} md={6}>
               <Button
               disabled={isContinueDisabled}
@@ -216,9 +225,19 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
       setContent (
         <React.Fragment>
           <Grid item xs={12} md={12}>
-            <Typography>
-              Link Setters
+            <Typography color="textSecondary" align="center">
+              Provide any third party link, associated to the Timer (optional) -
             </Typography>
+            <TextField
+            fullWidth
+            variant="outlined"
+            margin="normal"
+            id="title"
+            label="Enter Link - (optional)"
+            name="title"
+            autoFocus
+            defaultValue={timerLink}
+            onBlur={handleLinkChange}/>
           </Grid>
           <Grid item xs={12} md={6}>
               <Button
@@ -248,8 +267,8 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
         title: timerTitle,
         description: timerDescription,
         link: timerLink,
-        endDate: endDate,
-        startDate: startDate,
+        endDate: dateTime,
+        startDate: dateTime,
         isCountDownTimer: isCountDownTimer,
         isTaskRelated: isTaskRelated,
       });
@@ -282,8 +301,7 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
       timerTitle, 
       timerDescription, 
       timerLink, 
-      endDate, 
-      startDate, 
+      dateTime,
       activeStep, 
       isContinueDisabled, 
       isCountDownTimer, 
@@ -294,9 +312,9 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
   
   useEffect(()=>{
     if(timerType) {
-      setTimerDateContent(`Countdown Timer (Until)`);
+      setTimerDateContent(`until`);
     } else {
-      setTimerDateContent(`Countup Timer (Since)`);
+      setTimerDateContent(`since`);
     }
   },[timerType]);
 

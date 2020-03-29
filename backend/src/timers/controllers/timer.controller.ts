@@ -6,7 +6,7 @@ import { TimerService } from '../services/timer.service';
 import { GetUser } from '../../auth/decorators/auth.decorators';
 import { IDisplayUser } from '../../auth/models/user.model';
 import { TimerParamIdDto, TimerDetailsDto, MarkdownContentDto } from '../dto/timer.dto';
-import { TIMER_STATUS, ITimerResponse } from '../models/timer.model';
+import { TIMER_STATUS, ITimerResponse, TIMER_TYPE } from '../models/timer.model';
 import { USER_ROLES } from '../../auth/constants';
 import { AuthService } from '../../auth/services/auth.service';
 import  converter  from '../lib/showdown-converter';
@@ -28,16 +28,14 @@ export class TimerController {
     private resetTimerResponse(): ITimerResponse {
         const item: ITimerResponse = {
             id:'',
+            createdBy: {firstName: '', lastName: '', username: '', role: USER_ROLES.FREE},
             title: '',
             description: '',
-            createdBy: {firstName: '', lastName: '', username: '', role: USER_ROLES.FREE},
-            sDate: Date.now(),
-            eDate: Date.now(),
-            isTask: false,
-            isCountDown: true,
+            timeDate: [],
+            type: TIMER_TYPE.SINCE,
             status: TIMER_STATUS.ACTIVE,
             link: '',
-            };
+        };
         return item;
     }
 
@@ -64,10 +62,8 @@ export class TimerController {
                 draftItem.id = item['_id'];
                 draftItem.title = item.title;
                 draftItem.description = item.description;
-                draftItem.sDate = item.sDate;
-                draftItem.eDate = item.eDate;
-                draftItem.isTask = item.isTask;                
-                draftItem.isCountDown = item.isCountDown;                
+                draftItem.type = item.type;
+                draftItem.timeDate = item.eDate;
                 draftItem.status = item.status;     
                 draftItem.link = item.link;           
                 return draftItem;

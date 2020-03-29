@@ -13,12 +13,12 @@ import TextField from '@material-ui/core/TextField';
 import { StepIconProps } from '@material-ui/core/StepIcon';
 import Grid from '@material-ui/core/Grid';
 // custom
-import { LinearLoader } from './../../../../../components/loaders/linear-loader/LinearLoader';
-import { SimpleSwitch } from './../../../../../components/switches/simple-switch/SimpleSwitch';
-import { TimerDateTime } from './../../../../../components/date-time/TimerDateTime';
-import SimpleText from './../../../../../components/texts/SimpleText';
+import { LinearLoader } from '../../../../../components/loaders/linear-loader/LinearLoader';
+import { SimpleSwitch } from '../../../../../components/switches/simple-switch/SimpleSwitch';
+import { TimerDateTime } from '../../../../../components/date-time/TimerDateTime';
+import SimpleText from '../../../../../components/texts/SimpleText';
 // styles
-import { QontoConnector, useQontoStepIconStyles, useStyles } from './add-timer-stepper.style';
+import { QontoConnector, useQontoStepIconStyles, useStyles } from './cu-timer-stepper.style';
 
 
 export interface IAddTimerData {

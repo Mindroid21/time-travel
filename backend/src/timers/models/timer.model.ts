@@ -10,18 +10,25 @@ export enum TIMER_STATUS {
 };
 
 /**
+ * ENUM For Timer TYPE
+ */
+export enum TIMER_TYPE {
+    UNTIL = 'until',
+    SINCE = 'since',
+    FROM_TO = 'fromTo',
+};
+
+/**
  * Response Object DataType
  */
 export interface ITimerResponse {
     id?: string;
-    title: string;    
     createdBy: IDisplayUser;
-    description: string;
-    isTask: boolean;
-    isCountDown: boolean;
-    sDate: number;
-    eDate: number;
     status: TIMER_STATUS;
+    title: string;    
+    description: string;
+    type: TIMER_TYPE;
+    timeDate: Date[];
     link: string;
 }
 
@@ -30,57 +37,44 @@ export interface ITimerResponse {
  */
 export interface ITimer {
     id?: string;
-    title: string;    
     createdBy: string;
-    description: string;
-    isTask: boolean;
-    isCountDown: boolean;
-    sDate: number;
-    eDate: number;
     status: TIMER_STATUS;
+    title: string;    
+    description: string;
+    type: TIMER_TYPE;
+    timeDate: Date[];
     link: string;
 }
 
 /**
  * Schema Export of Timer
  */
-export const TimerSchema = new Schema({
-    title: {
-        type: String,
-        unique: true,
-        required: 'Enter the Title of the song'
-    },
+export const TimerSchema = new Schema ({
     createdBy: {
         type: String,
-        required: 'Require User ID who has started the draft'
-    },    
-    description: {
-        type: String,
-    },
-    isTask: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
-    isCountDown: {
-        type: Boolean,
-        required: true,
-        default: true
-    },
-    sDate: {
-        type: Number,
-        required: 'Provide Start Date of Timer',
-        default: Date.now()
-    },
-    eDate: {
-        type: Number,
-        required: 'Provide End Date of Timer',
-        default: Date.now()
-    },
+        required: 'Require User ID who has started the timer'
+    }, 
     status: {
         type: String,
         required: 'Provide status of the timer',
         default: TIMER_STATUS.ACTIVE
+    },
+    title: {
+        type: String,
+        unique: true,
+        required: 'Enter the Title of the Timer'
+    }, 
+    description: {
+        type: String,
+    },
+    type: {
+        type: String,
+        required: 'Should be of type - UNTIL, SINCE, FROMTO'
+    },
+    timeDate: {
+        type: Array,
+        required: 'Provide Start Date of Timer',
+        default: [Date.now()]
     },
     link: {
         type: String,        

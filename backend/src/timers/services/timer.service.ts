@@ -53,16 +53,14 @@ export class TimerService {
      * @returns Promise<string> id of the record created     
      */
     async addTimer (timer: ITimer): Promise<string> {
-        const { title, createdBy, description, isTask, isCountDown, sDate, eDate, status, link } = timer;
+        const { title, createdBy, description, type, timeDate, status, link } = timer;
         try {
             const newRecord = new this.timerModel({
                 title: title.toLowerCase(),
                 createdBy,
                 description,
-                isTask,
-                isCountDown,
-                sDate,
-                eDate,                
+                type,
+                timeDate,              
                 status,
                 link,
             });
@@ -85,7 +83,7 @@ export class TimerService {
      * @returns Promise<string> id of the record updated
      */
     async updateTimerById (id: string, timer: ITimer): Promise<string> {
-        const { title, createdBy, description, isTask, isCountDown, sDate, eDate, status, link } = timer;
+        const { title, createdBy, description, type, timeDate, status, link } = timer;
         if (!Object.values(TIMER_STATUS).includes(timer.status)) {
             throw new BadRequestException('Status not available');
         }
@@ -93,10 +91,8 @@ export class TimerService {
             title: title.toLowerCase(),
             createdBy,
             description,
-            isTask,
-            isCountDown,
-            sDate,
-            eDate,                
+            type,
+            timeDate,              
             status,
             link,
         }, { new: true });

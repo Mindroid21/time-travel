@@ -1,54 +1,41 @@
-import { IsNotEmpty, IsOptional, IsNumber, IsIn } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsNumber, IsIn, IsArray } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
-import { TIMER_STATUS } from '../models/timer.model';
+import { TIMER_STATUS, TIMER_TYPE } from '../models/timer.model';
 
 export class TimerDetailsDto {
-    @ApiModelProperty({
-        required: true
-    })
-    @IsNotEmpty()
-    title: string;
-    
-    @ApiModelProperty({
+    @ApiModelProperty ({
         required: true
     })
     @IsNotEmpty()
     createdBy: string;
 
     @ApiModelProperty()
-    @IsOptional()
-    description: string;
-
-    @ApiModelProperty({
-        required: true
-    })
-    @IsNotEmpty()
-    isTask: boolean;
-
-    @ApiModelProperty({
-        required: true
-    })
-    @IsNotEmpty()
-    isCountDown: boolean;
-
-    @ApiModelProperty({
-        required: true
-    })
-    @IsNotEmpty()
-    @IsNumber()
-    sDate: number;
-
-    @ApiModelProperty({
-        required: true
-    })
-    @IsNotEmpty()
-    @IsNumber()
-    eDate: number;
-
-    @ApiModelProperty()
     @IsNotEmpty()
     @IsIn([ TIMER_STATUS.ACTIVE, TIMER_STATUS.COMPLETED ])
     status: TIMER_STATUS;
+
+    @ApiModelProperty ({
+        required: true
+    })
+    @IsNotEmpty()
+    title: string;
+
+    @ApiModelProperty()
+    @IsOptional()
+    description: string;
+
+    @ApiModelProperty ({
+        required: true
+    })
+    @IsNotEmpty()
+    @IsIn([ TIMER_TYPE.FROM_TO, TIMER_TYPE.UNTIL, TIMER_TYPE.SINCE ])
+    type: TIMER_TYPE;
+
+    @ApiModelProperty ({
+        required: true
+    })
+    @IsArray()
+    timeDate: Date [];
 
     @ApiModelProperty()
     @IsOptional()
@@ -56,7 +43,7 @@ export class TimerDetailsDto {
 }
 
 export class TimerParamIdDto {
-    @ApiModelProperty({
+    @ApiModelProperty ({
         required: true
     })
     @IsNotEmpty()
@@ -64,7 +51,7 @@ export class TimerParamIdDto {
 }
 
 export class MarkdownContentDto {
-    @ApiModelProperty({
+    @ApiModelProperty ({
         required: true
     })
     @IsNotEmpty()

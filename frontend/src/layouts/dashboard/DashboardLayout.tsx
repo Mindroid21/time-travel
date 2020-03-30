@@ -1,15 +1,15 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useSnackbar } from 'notistack';
+import React, { FunctionComponent, useEffect, useState, useContext } from 'react';
 // material
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
+// notification
+import { SnackbarDispatchContext, NOTIFICATION_TYPE } from './../../common/context/SnackbarContext';
 // custom
 import Sidebar from '../../components/sidebar/Sidebar';
 import DashboardRouter from './router/DashboardRouter';
 import Header from '../../components/header/Header';
 import Copyright from '../../components/copy/CopyRight';
 import { useStyles, drawerWidth } from './dashboard-layout.styles';
-import CloseActionButton from './../../components/buttons/close-button/CloseActionButton';
 import { getUserDetails } from './../../common/async/AsyncCalls';
 import { getLocalStorageItem } from './../../common/helper/LocalStorageProvider';
 import { HeaderContextProvider } from './../../components/header/context/HeaderContext';
@@ -20,14 +20,9 @@ const DashboardLayout: FunctionComponent = () => {
     const [userName, setUserName] = useState('');
     const classes = useStyles();
     //snackBar
-  const { enqueueSnackbar} = useSnackbar();
-  // notificationBox action - OK
-  const actionButton = (key:any) => (
-    <CloseActionButton keyObj={key} />
-  );
-
-  // event handlers
-  const fetchLoggedInUserDetails = () => {
+    const dispatchSnackbar: any = useContext(SnackbarDispatchContext);
+    // event handlers
+    const fetchLoggedInUserDetails = () => {
       const token: string = getLocalStorageItem('token');
       getUserDetails(token)
       .then((res: any) => {
@@ -45,9 +40,12 @@ const DashboardLayout: FunctionComponent = () => {
   // side-effects #1
   useEffect(()=>{
     if (userName !=='') {
-      enqueueSnackbar(`Welcome ${userName}`, {variant: 'info', action: actionButton });
+      dispatchSnackbar ({
+        type: NOTIFICATION_TYPE.INFO,
+        payload: { message: `Welcome ${userName}` }
+      });
     }
-  },[enqueueSnackbar, userName]);
+  },[dispatchSnackbar, userName]);
 
   useEffect(()=>{
     fetchLoggedInUserDetails();

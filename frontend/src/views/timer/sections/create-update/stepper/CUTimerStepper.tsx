@@ -1,40 +1,22 @@
-import React, { useState, useEffect, FunctionComponent } from 'react';
+import React, { useState, useEffect, FunctionComponent, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 // material
-import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Check from '@material-ui/icons/Check';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import { StepIconProps } from '@material-ui/core/StepIcon';
-import Grid from '@material-ui/core/Grid';
 // custom
-import { LinearLoader } from '../../../../../components/loaders/linear-loader/LinearLoader';
-import { SimpleSwitch } from '../../../../../components/switches/simple-switch/SimpleSwitch';
-import { TimerDateTime } from '../../../../../components/date-time/TimerDateTime';
-import SimpleText from '../../../../../components/texts/SimpleText';
+import { PanelOne, IPanelOneData } from './panels/PanelOne';
+import { PanelTwo, IPanelTwoData } from './panels/PanelTwo';
+import { PanelThree, IPanelThreeData } from './panels/PanelThree';
 // styles
 import { QontoConnector, useQontoStepIconStyles, useStyles } from './cu-timer-stepper.style';
+import { TimerStateContext, TimerDispatchContext, CONTEXT_ACTION_TYPE } from '../../../context/TimerContext';
+import { PanelFour } from './panels/PanelFour';
 
-
-export interface IAddTimerData {
-  title: string;
-  description: string;
-  link: string;
-  startDate: Date;
-  endDate: Date;
-  isCountDownTimer: boolean;
-  isTaskRelated: boolean;
-}
-
-
-export interface IAddTimerStepperProps {
-  onSubmit: (data: IAddTimerData) => void;
-}
 
 const QontoStepIcon: FunctionComponent<StepIconProps> = (props) => {
   const classes = useQontoStepIconStyles();
@@ -52,272 +34,82 @@ const QontoStepIcon: FunctionComponent<StepIconProps> = (props) => {
 };
 
 const getSteps = () => {
-  return ['1', '2', '3', 'All Done'];
+  return ['1', '2', '3', 'Done'];
 };
 
-const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
+const CUTimerStepper: FunctionComponent = (props) => {
+  // timer context
+  const timerStateContext = useContext(TimerStateContext);
+  const timerDispatch: any = useContext(TimerDispatchContext); 
+  // styling
   const classes = useStyles();
+  // states
   const [activeStep, setActiveStep] = useState(0);
   const [content, setContent] = useState(<React.Fragment></React.Fragment>);
-  const [timerDateContent, setTimerDateContent] = useState('');
-  const [timerType, setTimerType] = useState(false);
   const steps = getSteps();
-  const [timerTitle, setTimerTitle] = useState('');
-  const [timerDescription, setTimerDescription] = useState('');
-  const [dateTime, setDateTime] = useState(new Date());
-  const [timerLink, setTimerLink] = useState('');
-  const [isCountDownTimer, toggleCountDownTimer] = useState(true);
-  const [isTaskRelated, toggleTaskRelated] = useState(false);
-  const [isTitleButtonDisabled, toggleTitleButtonDisabled] = useState(true);
-  const [isContinueDisabled, toggleContinueDisabled] = useState(false);
-  const [errMsg, setErrMsg] = useState('');
-  const [isLoading, setLoading] = useState(false);
-  // de-structuring
-  const { onSubmit } = props;
-
+  // event handlers
   const handleNext = () => {
     setActiveStep (prevActiveStep => prevActiveStep + 1);
   };
 
   const handleBack = () => {
+    console.log('Calling CUTimerStepper onBack');
     setActiveStep (prevActiveStep => prevActiveStep - 1);
   };
 
-  const handleRegisterReset = () => {
-    setActiveStep (0);
-  }
-
-  const handleTimerTitleChange = (evt: any) => {
-    if (evt.target.value !=='') {
-        setTimerTitle (evt.target.value);
-        toggleTitleButtonDisabled (false);
-    } else {
-        toggleTitleButtonDisabled (true);
-    }
+  const handlePanelOneSubmit = (data: IPanelOneData) => {
+    timerDispatch ({
+      type: CONTEXT_ACTION_TYPE.TITLE_DESCRIPTION,
+      payload: { title: data.title, description: data.description }
+    });
+    handleNext();
   };
 
-  const handleTimerDescriptionChange = (evt: any) => {
-    if (evt.target.value !=='') {
-        setTimerDescription (evt.target.value);
-    }
+  const handlePanelTwoSubmit = (data: IPanelTwoData) => {
+    timerDispatch ({
+      type: CONTEXT_ACTION_TYPE.DATE_TIME_TYPE,
+      payload: { type: data.type, dateTime: data.dateTime }
+    });
+    handleNext();
   };
-
-  const handleTimerTypeSwitch = (status: boolean) => {
-    console.log('Switch status is: ', status);
-    setTimerType(status);
-  };
-
-  const handleLinkChange = (evt: any) => {
-    if (evt.target.value !=='') {
-      setTimerLink (evt.target.value);
-    }
-  };
-
-  const handleDateTimeChange = (data: any) => {
-    if (timerType) {
-      console.log('Timer down is: ', data);
-    } else {
-      console.log('Timer up is: ', data);
-    }
-    setDateTime(data.toDate());
-  };
-
   
-
-  const handleToggleTimerType = () => {
-    toggleCountDownTimer(prev => !prev);
+  const handlePanelThreeSubmit = (data: IPanelThreeData) => {
+    timerDispatch ({
+      type: CONTEXT_ACTION_TYPE.LINK,
+      payload: { link: data.link }
+    });
+    handleNext();
   };
 
-  const handleToggleTaskRelated = () => {
-    toggleTaskRelated(prev => !prev);
-  };
-
-  
-  // side-effect
+  // side-effects
   useEffect(()=>{
+    const { title, description, link, dateTime, type } = timerStateContext;
     if (activeStep === 0) {
       setContent (
-        <React.Fragment>
-          <TextField
-            fullWidth
-            variant="outlined"
-            margin="normal"
-            required
-            id="title"
-            label="Enter Title"
-            name="title"
-            autoFocus
-            defaultValue={timerTitle}
-            onBlur={handleTimerTitleChange}/>
-          <TextField
-            fullWidth
-            variant="outlined"
-            margin="normal"
-            id="description"
-            label="Enter Description"
-            name="description"
-            autoComplete="description"
-            autoFocus
-            defaultValue={timerDescription}
-            onBlur={handleTimerDescriptionChange}/>
-            <Grid item xs={12} md={6}>
-              <Button
-              disabled={isContinueDisabled}
-              onClick={handleNext}
-              fullWidth
-              variant="contained"
-              color="secondary">
-                Next
-            </Button>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Button
-              disabled={true}
-              onClick={handleBack}
-              fullWidth
-              variant="contained"
-              color="default">
-                Back
-            </Button>
-            </Grid>
-            
-        </React.Fragment>
+        <PanelOne title={title} description={description} onSubmit={handlePanelOneSubmit} />
       );
     } else if (activeStep === 1) {
       setContent (
-        <React.Fragment>
-          <Grid item xs={12} md={12}>
-            <Typography color="textSecondary" align="center">
-              Choose Timer Type
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={12} className={classes.centerDiv}>
-            <SimpleSwitch onSwitch={handleTimerTypeSwitch}/>
-          </Grid>
-          <TimerDateTime date={dateTime} onChange={handleDateTimeChange} />
-          <Grid item xs={12} md={12}>
-            <SimpleText 
-              content={`${timerTitle} ${timerDateContent} ${dateTime.getDay()} ${dateTime.getMonth()} @ ${dateTime.getHours()}: ${dateTime.getMinutes()}`}/>
-          </Grid>
-          <Grid item xs={12} md={6}>
-              <Button
-              disabled={isContinueDisabled}
-              onClick={handleNext}
-              fullWidth
-              variant="contained"
-              color="secondary">
-                Next
-            </Button>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Button
-              disabled={false}
-              onClick={handleBack}
-              fullWidth
-              variant="contained"
-              color="default">
-                Back
-            </Button>
-            </Grid>
-        </React.Fragment>
+        <PanelTwo title={title} type={type} dateTime={dateTime} onSubmit={handlePanelTwoSubmit} onBack={handleBack} />
       )
     } else if (activeStep === 2) {
       setContent (
-        <React.Fragment>
-          <Grid item xs={12} md={12}>
-            <Typography color="textSecondary" align="center">
-              Provide any third party link, associated to the Timer (optional) -
-            </Typography>
-            <TextField
-            fullWidth
-            variant="outlined"
-            margin="normal"
-            id="title"
-            label="Enter Link - (optional)"
-            name="title"
-            autoFocus
-            defaultValue={timerLink}
-            onBlur={handleLinkChange}/>
-          </Grid>
-          <Grid item xs={12} md={6}>
-              <Button
-                disabled={isContinueDisabled}
-                onClick={handleNext}
-                fullWidth
-                variant="contained"
-                color="secondary">
-                  Next
-              </Button>
-          </Grid>
-          <Grid item xs={12} md={6}>
-              <Button
-                disabled={false}
-                onClick={handleBack}
-                fullWidth
-                variant="contained"
-                color="default">
-                  Back
-              </Button>
-          </Grid>
-        </React.Fragment>
+        <PanelThree link={link} onSubmit={handlePanelThreeSubmit} onBack={handleBack} />
       );
     } else if (activeStep === 3) {
-      // call the onSubmit Event
-      onSubmit ({
-        title: timerTitle,
-        description: timerDescription,
-        link: timerLink,
-        endDate: dateTime,
-        startDate: dateTime,
-        isCountDownTimer: isCountDownTimer,
-        isTaskRelated: isTaskRelated,
-      });
-      
       setContent (
-        <React.Fragment>
-          <Grid item xs={12} md={12}>
-            <Typography color="textSecondary" align="center">
-                Congratulations! your are all set, <br/>
-              <RouterLink to="/login" className={classes.routeLink}>Next up: Login</RouterLink>
-            </Typography>
-          </Grid>          
-        </React.Fragment>
-      )
-    } 
-    else {
-      setContent (
-        <React.Fragment>
-          <Grid item xs={12} md={12}>
-            <Typography>
-              Date Setters
-            </Typography>
-          </Grid>
-        </React.Fragment>
+        <PanelFour />
       );
-    }
+    } 
   },[
-      isLoading,
-      timerType,
-      timerTitle, 
-      timerDescription, 
-      timerLink, 
-      dateTime,
-      activeStep, 
-      isContinueDisabled, 
-      isCountDownTimer, 
-      isTaskRelated, 
-      errMsg, 
-      classes.routeLink, 
+      timerStateContext.title,
+      timerStateContext.description,
+      timerStateContext.link,
+      timerStateContext.description,
+      timerStateContext.type,
+      activeStep,
     ]);
-  
-  useEffect(()=>{
-    if(timerType) {
-      setTimerDateContent(`until`);
-    } else {
-      setTimerDateContent(`since`);
-    }
-  },[timerType]);
-
+    
   return (
     <div className={classes.root}>
       <Stepper alternativeLabel activeStep={activeStep} connector={<QontoConnector />}>
@@ -334,4 +126,4 @@ const AddTimerStepper: FunctionComponent<IAddTimerStepperProps> = (props) => {
   );
 };
 
-export default AddTimerStepper;
+export default CUTimerStepper;

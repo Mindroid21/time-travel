@@ -32,13 +32,16 @@ const PurpleSwitch = withStyles( theme => {
 
 
 export interface ISimpleSwitch {
+    type: boolean;
     onSwitch: (state: boolean) => void;
 };
 
 
 export const SimpleSwitch: FunctionComponent<ISimpleSwitch> = (props): JSX.Element => {
-  const [state, setState] = useState({
-    checkedA: false,
+  const { type, onSwitch } = props;
+
+  const [state, setState] = useState ({
+    checkedA: type,
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

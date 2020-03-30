@@ -21,6 +21,8 @@ export enum TIMER_TYPE {
 export enum CONTEXT_ACTION_TYPE {
     TITLE = 'title',
     DESCRIPTION = 'description',
+    TITLE_DESCRIPTION = 'title_description',
+    DATE_TIME_TYPE = 'date_time_type',
     LINK = 'link',
     DATE_TIME = 'dateTime',
     TYPE = 'type',
@@ -43,13 +45,22 @@ const timerContextReducer = (state: ITimerContextState, action: {type: CONTEXT_A
             return { ...state, title: action.payload.title };
         case CONTEXT_ACTION_TYPE.DESCRIPTION:
             console.log(`Dispatch TimerContext Action: ${CONTEXT_ACTION_TYPE.DESCRIPTION}`);
-            return { ...state, description: action.payload.title };
+            return { ...state, description: action.payload.description };
+        case CONTEXT_ACTION_TYPE.TITLE_DESCRIPTION:
+            console.log(`Dispatch TimerContext Action: ${CONTEXT_ACTION_TYPE.TITLE_DESCRIPTION}`);
+            return { ...state, description: action.payload.description, title: action.payload.title };
         case CONTEXT_ACTION_TYPE.DATE_TIME:
             console.log(`Dispatch TimerContext Action: ${CONTEXT_ACTION_TYPE.DATE_TIME}`);
             return { ...state, dateTime: action.payload.dateTime };
         case CONTEXT_ACTION_TYPE.TYPE:
-                console.log(`Dispatch TimerContext Action: ${CONTEXT_ACTION_TYPE.TYPE}`);
-                return { ...state, type: action.payload.type };
+            console.log(`Dispatch TimerContext Action: ${CONTEXT_ACTION_TYPE.TYPE}`);
+            return { ...state, type: action.payload.type };
+        case CONTEXT_ACTION_TYPE.DATE_TIME_TYPE:
+            console.log(`Dispatch TimerContext Action: ${CONTEXT_ACTION_TYPE.DATE_TIME_TYPE}`);
+            return { ...state, type: action.payload.type, dateTime: action.payload.dateTime };
+        case CONTEXT_ACTION_TYPE.LINK:
+            console.log(`Dispatch TimerContext Action: ${CONTEXT_ACTION_TYPE.LINK}`);
+            return { ...state, link: action.payload.link };
         default:
             throw new Error(`Unhandled TimerContext action type: ${action.type}`);
     }

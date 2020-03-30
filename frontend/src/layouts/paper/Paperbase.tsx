@@ -3,7 +3,6 @@ import React, { FunctionComponent } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { SnackbarProvider } from 'notistack';
 import { getThemeOptions } from './../../common/helper/ThemeConfigProvider';
-import { NotificationContextProvider } from './../../common/context/SnackbarContext';
 
 import RouterApp from '../../router/RouterApp';
 
@@ -15,9 +14,7 @@ const Paperbase: FunctionComponent = () => {
             vertical: 'top',
             horizontal: 'center',
         }}>
-        <NotificationContextProvider>
           <RouterApp/>
-        </NotificationContextProvider>
       </SnackbarProvider>
     </ThemeProvider>
   );

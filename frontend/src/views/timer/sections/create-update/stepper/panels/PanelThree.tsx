@@ -4,6 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+// custom
+import { isValidURL } from './../../../../../../common/helper/CommonUtil';
+import { NOTIFICATION_TYPE, SnackbarHelper } from '../../../../../../common/context/SnackbarHelper';
 
 export interface IPanelThreeData {
     link: string;
@@ -18,10 +21,16 @@ export const PanelThree: FunctionComponent<IPanelThreeProps> = (props) => {
     const { link, onBack, onSubmit } = props;
     // states
     const [ timerLink, setTimerLink ] = useState(link);
+    const [ errorMsg, setErrorMsg] = useState('');
+    const [ noticeType, setNoticeType] = useState<NOTIFICATION_TYPE>(NOTIFICATION_TYPE.ERROR);
+    
     // event handlers
     const handleLinkChange = (evt: any) => {
-        if (evt.target.value !=='') {
+        if (evt.target.value !=='' && isValidURL(evt.target.value)) {          
           setTimerLink (evt.target.value);
+        } else if (evt.target.value !=='' && !isValidURL(evt.target.value)) {
+            const message = `Enter valid URL (eg: https://google.com)`;
+            setErrorMsg(message);
         }
     };
 
@@ -36,6 +45,7 @@ export const PanelThree: FunctionComponent<IPanelThreeProps> = (props) => {
     };
     return (
         <React.Fragment>
+          <SnackbarHelper type={noticeType} message={errorMsg}/>
           <Grid item xs={12} md={12}>
             <Typography color="textSecondary" align="center">
               Provide any third party link, associated to the Timer (optional) -

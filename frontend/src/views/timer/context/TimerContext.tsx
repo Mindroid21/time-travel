@@ -32,7 +32,7 @@ export const TimerStateContext = React.createContext<ITimerContextState>({
     title: '',
     description: '',
     link: '',
-    dateTime: [],
+    dateTime: [new Date()],
     type: false,
 }); // Separate context for storing state
 
@@ -71,7 +71,7 @@ export const TimerContextProvider: FunctionComponent<any> = ({children}) => {
         title: '',
         description: '',
         link: '',
-        dateTime: [],
+        dateTime: [new Date()],
         type: false,
     });
     return (

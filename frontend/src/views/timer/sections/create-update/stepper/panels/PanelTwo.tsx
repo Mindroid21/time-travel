@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect, useContext } from 'react';
 // material
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -7,7 +7,8 @@ import Button from '@material-ui/core/Button';
 import { SimpleSwitch } from '../../../../../../components/switches/simple-switch/SimpleSwitch';
 import { TimerDateTime } from '../../../../../../components/date-time/TimerDateTime';
 import SimpleText from '../../../../../../components/texts/SimpleText';
-import { formatDate } from './../../../../../../common/helper/DateHelper';
+import { formatDate, isValidDate } from './../../../../../../common/helper/DateHelper';
+import { NOTIFICATION_TYPE, SnackbarHelper } from '../../../../../../common/context/SnackbarHelper';
 // styles
 import { useStyles } from './../cu-timer-stepper.style';
 
@@ -27,9 +28,11 @@ export const PanelTwo: FunctionComponent<IPanelTwoProps> = (props): JSX.Element 
     const { title, dateTime, type, onSubmit, onBack } = props;
     // state
     const [ timerType, setTimerType ] = useState(props.type);
-    const [ timerDateTime, setTimerDateTime ] = useState(props.dateTime);
+    const [ timerDateTime, setTimerDateTime ] = useState(props.dateTime ? props.dateTime : [new Date()]);
     const [ isContinueDisabled, toggleContinueDisabled ] = useState(false);
     const [ summary, setSummary ] = useState('');
+    const [ errorMsg, setErrorMsg] = useState('');
+    const [ noticeType, setNoticeType] = useState<NOTIFICATION_TYPE>(NOTIFICATION_TYPE.INFO);
     
     const handleTimerTypeSwitch = (status: boolean) => {
         // console.log('Switch status is: ', status);
@@ -46,10 +49,23 @@ export const PanelTwo: FunctionComponent<IPanelTwoProps> = (props): JSX.Element 
     };
 
     const handleNext = () => {
-        onSubmit({
-            type: timerType,
-            dateTime: timerDateTime,
-        });
+        console.log('Timer date time is: ', timerDateTime);
+        if (!isValidDate(timerType, timerDateTime[0])) {
+            let message: string;
+            setNoticeType(NOTIFICATION_TYPE.ERROR);
+            if (timerType) {
+                message = `Timer marked until cant be previous to current date`
+            } else {
+                message = `Timer marked since cant be ahead of current date`
+            }
+            setErrorMsg(message);
+        } else {
+            setErrorMsg('');
+            onSubmit ({
+                type: timerType,
+                dateTime: timerDateTime,
+            });
+        }
     };
 
     const handleBack = () => {
@@ -59,17 +75,14 @@ export const PanelTwo: FunctionComponent<IPanelTwoProps> = (props): JSX.Element 
 
     useEffect(()=>{
         let summary: string;
-        if (timerDateTime && timerDateTime.length > 0) {
-            summary = formatDate (timerDateTime[0]);
-        } else {
-            summary = formatDate (new Date());
-        }
+        summary = formatDate (timerDateTime[0]);
         setSummary(`${title} ${timerType ? 'until': 'since'}, ${summary}`);
     },[title, timerType, timerDateTime]);
 
     const classes = useStyles();
     return (
         <React.Fragment>
+          <SnackbarHelper type={noticeType} message={errorMsg}/>
           <Grid item xs={12} md={12}>
             <Typography color="textSecondary" align="center">
               Choose Timer Type

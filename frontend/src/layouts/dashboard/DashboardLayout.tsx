@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useState, useContext } from 'react
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 // notification
-import { SnackbarDispatchContext, NOTIFICATION_TYPE } from './../../common/context/SnackbarContext';
+import { SnackbarHelper, NOTIFICATION_TYPE } from '../../common/context/SnackbarHelper';
 // custom
 import Sidebar from '../../components/sidebar/Sidebar';
 import DashboardRouter from './router/DashboardRouter';
@@ -18,9 +18,9 @@ import { DashboardRouterContextProvider } from './../../layouts/dashboard/contex
 const DashboardLayout: FunctionComponent = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [userName, setUserName] = useState('');
+    const [noteType, setNoteType] = useState<NOTIFICATION_TYPE>(NOTIFICATION_TYPE.INFO);
+    const [noteMsg, setNoteMsg] = useState('');
     const classes = useStyles();
-    //snackBar
-    const dispatchSnackbar: any = useContext(SnackbarDispatchContext);
     // event handlers
     const fetchLoggedInUserDetails = () => {
       const token: string = getLocalStorageItem('token');
@@ -40,12 +40,10 @@ const DashboardLayout: FunctionComponent = () => {
   // side-effects #1
   useEffect(()=>{
     if (userName !=='') {
-      dispatchSnackbar ({
-        type: NOTIFICATION_TYPE.INFO,
-        payload: { message: `Welcome ${userName}` }
-      });
+      const msg = `Welcome ${userName}`;
+      setNoteMsg(msg);
     }
-  },[dispatchSnackbar, userName]);
+  },[userName]);
 
   useEffect(()=>{
     fetchLoggedInUserDetails();
@@ -56,6 +54,7 @@ const DashboardLayout: FunctionComponent = () => {
     <React.Fragment>
       <DashboardRouterContextProvider>
         <HeaderContextProvider>
+          <SnackbarHelper type={noteType} message={noteMsg} />
           <div className={classes.root}>
             <CssBaseline />
             <nav className={classes.drawer}>

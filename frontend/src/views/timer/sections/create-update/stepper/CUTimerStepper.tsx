@@ -1,5 +1,4 @@
 import React, { useState, useEffect, FunctionComponent, useContext } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 // material
 import Grid from '@material-ui/core/Grid';
@@ -37,7 +36,14 @@ const getSteps = () => {
   return ['1', '2', '3', 'Done'];
 };
 
-const CUTimerStepper: FunctionComponent = (props) => {
+/**
+ * PAJ - See what I did there :) - ICU
+ */
+interface ICUTimerStepperProps {
+  isCreate: boolean;
+};
+
+const CUTimerStepper: FunctionComponent<ICUTimerStepperProps> = (props) => {
   // timer context
   const timerStateContext = useContext(TimerStateContext);
   const timerDispatch: any = useContext(TimerDispatchContext); 
@@ -98,7 +104,7 @@ const CUTimerStepper: FunctionComponent = (props) => {
       );
     } else if (activeStep === 3) {
       setContent (
-        <PanelFour />
+        <PanelFour isCreate={props.isCreate} />
       );
     } 
   },[

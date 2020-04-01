@@ -40,7 +40,7 @@ const useRouterContextReducer = (state: IRouterContextState, action: {type: NAME
 
     switch (action.type) {
         case NAMED_ROUTES.LOGIN:
-            console.log(`Dispatch Route: ${NAMED_ROUTES.LOGIN}`);
+            // console.log(`Dispatch Route: ${NAMED_ROUTES.LOGIN}`);
             location = {
                 pathname: `/${NAMED_ROUTES.LOGIN}`
             };
@@ -48,7 +48,7 @@ const useRouterContextReducer = (state: IRouterContextState, action: {type: NAME
             return {...state, name: NAMED_ROUTES.LOGIN};
         
         case NAMED_ROUTES.REGISTER:
-            console.log(`Dispatch Route: ${NAMED_ROUTES.REGISTER}`);
+            // console.log(`Dispatch Route: ${NAMED_ROUTES.REGISTER}`);
             location = {
                 pathname: `/${NAMED_ROUTES.REGISTER}`
             };
@@ -56,7 +56,7 @@ const useRouterContextReducer = (state: IRouterContextState, action: {type: NAME
             return {...state, name: NAMED_ROUTES.REGISTER};
 
         case NAMED_ROUTES.APP:
-            console.log(`Dispatch Route: ${NAMED_ROUTES.APP}`);
+            // console.log(`Dispatch Route: ${NAMED_ROUTES.APP}`);
             location = {
                 pathname: `/${NAMED_ROUTES.APP}`
             };
@@ -64,7 +64,7 @@ const useRouterContextReducer = (state: IRouterContextState, action: {type: NAME
             return {...state, name: NAMED_ROUTES.APP};
 
     case NAMED_ROUTES.ABOUT:
-            console.log(`Dispatch Route: ${NAMED_ROUTES.ABOUT}`);
+            // console.log(`Dispatch Route: ${NAMED_ROUTES.ABOUT}`);
             location = {
                 pathname: `/${NAMED_ROUTES.ABOUT}`
             };
@@ -72,7 +72,7 @@ const useRouterContextReducer = (state: IRouterContextState, action: {type: NAME
             return {...state, name: NAMED_ROUTES.ABOUT};
 
         case NAMED_ROUTES.TIMER:
-            console.log(`Dispatch Route: ${NAMED_ROUTES.TIMER}`);
+            // console.log(`Dispatch Route: ${NAMED_ROUTES.TIMER}`);
             location = {
                 pathname: `/${NAMED_ROUTES.TIMER}`
             };
@@ -80,7 +80,7 @@ const useRouterContextReducer = (state: IRouterContextState, action: {type: NAME
             return {...state, name: NAMED_ROUTES.TIMER};
 
         case NAMED_ROUTES.QUOTES:
-            console.log(`Dispatch Route: ${NAMED_ROUTES.QUOTES}`);
+            // console.log(`Dispatch Route: ${NAMED_ROUTES.QUOTES}`);
             location = {
                 pathname: `/${NAMED_ROUTES.QUOTES}`
             };
@@ -88,7 +88,7 @@ const useRouterContextReducer = (state: IRouterContextState, action: {type: NAME
             return {...state, name: NAMED_ROUTES.QUOTES};
 
         case NAMED_ROUTES.TODO:
-            console.log(`Dispatch Route: ${NAMED_ROUTES.TODO}`);
+            // console.log(`Dispatch Route: ${NAMED_ROUTES.TODO}`);
             location = {
                 pathname: `/${NAMED_ROUTES.TODO}`
             };
@@ -96,7 +96,7 @@ const useRouterContextReducer = (state: IRouterContextState, action: {type: NAME
             return {...state, name: NAMED_ROUTES.TODO};
 
         case NAMED_ROUTES.PREVIEW:
-            console.log(`Dispatch Route: ${NAMED_ROUTES.PREVIEW}`);
+            // console.log(`Dispatch Route: ${NAMED_ROUTES.PREVIEW}`);
             location = {
                 pathname: `/${NAMED_ROUTES.PREVIEW}`
             };

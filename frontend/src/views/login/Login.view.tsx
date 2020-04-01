@@ -28,7 +28,6 @@ const LoginView : FunctionComponent = () => {
     //states
     const [username,setUserName] = useState('');
     const [password, setPassword] = useState('');
-    const [noteType, setNoteType] = useState<NOTIFICATION_TYPE>(NOTIFICATION_TYPE.ERROR);
     const [noteMsg, setNoteMsg] = useState('');
     const [isLoading, setLoading] = useState(true);
 
@@ -90,7 +89,7 @@ const LoginView : FunctionComponent = () => {
     return (
         <React.Fragment>
             <Grid container spacing={1} className={classes.root} alignItems="center">
-                <SnackbarHelper type={noteType} message={noteMsg} />
+                <SnackbarHelper type={NOTIFICATION_TYPE.ERROR} message={noteMsg} />
                 <Paper className={classes.paper}>
                     <div className={classes.contentWrapper}>
                         <img src={logo} className={classes.imageIcon} alt="logo"/>

@@ -55,7 +55,7 @@ export const TimerDateTime: FunctionComponent<ITimerDateTimeProps> = (props) => 
   const { date, onChange } = props;
 
   const handleDateChange = (date: any) => {
-    console.log('Data is: ', date);  
+    // console.log('Data is: ', date);  
     onChange(date);
   };
 

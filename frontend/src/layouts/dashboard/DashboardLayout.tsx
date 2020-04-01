@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState, useContext } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 // material
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
@@ -45,9 +45,10 @@ const DashboardLayout: FunctionComponent = () => {
     }
   },[userName]);
 
-  useEffect(()=>{
+  // componentDidMount
+  useEffect(() => {
+    setNoteType (NOTIFICATION_TYPE.INFO);
     fetchLoggedInUserDetails();
-    // implement perfect scrollbar
   },[]);
 
     return (

@@ -16,7 +16,7 @@ export const CircularLoader: FunctionComponent<ICircularLoaderProps> = (props) =
 
   return (
     <div className = {displayLoader} >
-      <CircularProgress className={classes.progress} />
+      <CircularProgress className={classes.progress} color="secondary" />
       <Typography component="p">Loading...</Typography>
     </div>
   );

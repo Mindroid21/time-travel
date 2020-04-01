@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FunctionComponent } from 'react';
+import React, { useState, useEffect, FunctionComponent, useCallback } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 // material
@@ -94,13 +94,13 @@ export default function RegisterStepper() {
     }
   };
 
-  const handleConfirmPasswordChange = (evt: any) => {
+  const handleConfirmPasswordChange = useCallback((evt: any) => {
     if (evt.target.value !== password){
       setRegisterDisabled(true);
     } else {
       setRegisterDisabled(false);
     }
-  };
+  },[password]);
 
   useEffect(()=>{
     if (activeStep === 2) {
@@ -122,7 +122,7 @@ export default function RegisterStepper() {
         setErrMsg(`Error with register, please try differnt email / password`);
       });
     }
-  },[activeStep]);
+  },[email, firstName, lastName, password, activeStep]);
   // side-effect #2
   useEffect(()=>{
     if (activeStep === 0) {
@@ -232,7 +232,7 @@ export default function RegisterStepper() {
         </React.Fragment>
       );
     }
-  },[activeStep, isContinueDisabled, isRegisterDisabled, errMsg, classes.routeLink, isLoading]);
+  },[handleConfirmPasswordChange, firstName, activeStep, isContinueDisabled, isRegisterDisabled, errMsg, classes.routeLink, isLoading]);
 
   return (
     <div className={classes.root}>

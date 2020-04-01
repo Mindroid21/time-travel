@@ -5,10 +5,11 @@
  */
 export function formatDate (dateObj: Date): string {
     const hours = dateObj.getHours();
-    const mins = dateObj.getMinutes()==0 ? '00': dateObj.getMinutes();
+    let mins = dateObj.getMinutes()==0 ? '00': dateObj.getMinutes();
+    mins = mins < 10 ? `0${mins}` : mins;
     const date = dateObj.toDateString();
     return `${date} @ ${hours} : ${mins}`;
-}
+};
 
 /**
  * PAJ - Helper function to get if date selected is valid or not

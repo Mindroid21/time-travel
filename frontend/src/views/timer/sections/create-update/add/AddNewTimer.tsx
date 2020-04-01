@@ -1,8 +1,7 @@
-import React, { FunctionComponent, useContext, useState, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 // material
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 // custom
 import { useStyles } from './add-new-timer.styles';
 import CUTimerStepper from '../stepper/CUTimerStepper';
@@ -16,7 +15,7 @@ const AddNewTimer: FunctionComponent = () => {
                 <Typography color="textSecondary" align="left">
                     <strong>Add a Timer, in 3 easy steps -</strong>
                 </Typography>
-                <CUTimerStepper />
+                <CUTimerStepper isCreate={true} />
             </div>    
         </Paper>
         

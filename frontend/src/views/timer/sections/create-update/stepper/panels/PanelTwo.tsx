@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect, useContext } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 // material
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -25,11 +25,10 @@ interface IPanelTwoProps extends IPanelTwoData {
 
 
 export const PanelTwo: FunctionComponent<IPanelTwoProps> = (props): JSX.Element => {
-    const { title, dateTime, type, onSubmit, onBack } = props;
+    const { title, onSubmit, onBack } = props;
     // state
     const [ timerType, setTimerType ] = useState(props.type);
     const [ timerDateTime, setTimerDateTime ] = useState(props.dateTime ? props.dateTime : [new Date()]);
-    const [ isContinueDisabled, toggleContinueDisabled ] = useState(false);
     const [ summary, setSummary ] = useState('');
     const [ errorMsg, setErrorMsg] = useState('');
     const [ noticeType, setNoticeType] = useState<NOTIFICATION_TYPE>(NOTIFICATION_TYPE.INFO);
@@ -49,7 +48,7 @@ export const PanelTwo: FunctionComponent<IPanelTwoProps> = (props): JSX.Element 
     };
 
     const handleNext = () => {
-        console.log('Timer date time is: ', timerDateTime);
+        // console.log('Timer date time is: ', timerDateTime);
         if (!isValidDate(timerType, timerDateTime[0])) {
             let message: string;
             setNoticeType(NOTIFICATION_TYPE.ERROR);
@@ -98,7 +97,6 @@ export const PanelTwo: FunctionComponent<IPanelTwoProps> = (props): JSX.Element 
           </Grid>
           <Grid item xs={12} md={6}>
               <Button
-              disabled={isContinueDisabled}
               onClick={handleNext}
               fullWidth
               variant="contained"

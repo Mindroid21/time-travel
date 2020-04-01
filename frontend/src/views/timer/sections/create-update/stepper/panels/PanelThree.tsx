@@ -22,7 +22,7 @@ export const PanelThree: FunctionComponent<IPanelThreeProps> = (props) => {
     // states
     const [ timerLink, setTimerLink ] = useState(link);
     const [ errorMsg, setErrorMsg] = useState('');
-    const [ noticeType, setNoticeType] = useState<NOTIFICATION_TYPE>(NOTIFICATION_TYPE.ERROR);
+    const [ noticeType ] = useState<NOTIFICATION_TYPE>(NOTIFICATION_TYPE.ERROR);
     const [isContinueDisabled, toggleContinueDisabled] = useState(false);
     
     // event handlers

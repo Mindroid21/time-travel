@@ -1,10 +1,9 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 // import { purple } from '@material-ui/core/colors';
 import FormGroup from '@material-ui/core/FormGroup';
 import Switch, { SwitchClassKey, SwitchProps } from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 
 interface Styles extends Partial<Record<SwitchClassKey, string>> {
   focusVisible?: string;
@@ -50,7 +49,7 @@ export const SimpleSwitch: FunctionComponent<ISimpleSwitch> = (props): JSX.Eleme
 
   //side-effects
   useEffect(()=>{
-      props.onSwitch(state.checkedA);
+      onSwitch(state.checkedA);
   },[state.checkedA]);
 
   return (

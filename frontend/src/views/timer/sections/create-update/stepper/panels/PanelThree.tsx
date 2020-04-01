@@ -23,14 +23,17 @@ export const PanelThree: FunctionComponent<IPanelThreeProps> = (props) => {
     const [ timerLink, setTimerLink ] = useState(link);
     const [ errorMsg, setErrorMsg] = useState('');
     const [ noticeType, setNoticeType] = useState<NOTIFICATION_TYPE>(NOTIFICATION_TYPE.ERROR);
+    const [isContinueDisabled, toggleContinueDisabled] = useState(false);
     
     // event handlers
     const handleLinkChange = (evt: any) => {
+        toggleContinueDisabled(false);
         if (evt.target.value !=='' && isValidURL(evt.target.value)) {          
           setTimerLink (evt.target.value);
         } else if (evt.target.value !=='' && !isValidURL(evt.target.value)) {
             const message = `Enter valid URL (eg: https://google.com)`;
             setErrorMsg(message);
+            toggleContinueDisabled(true);
         }
     };
 
@@ -63,11 +66,12 @@ export const PanelThree: FunctionComponent<IPanelThreeProps> = (props) => {
           </Grid>
           <Grid item xs={12} md={6}>
               <Button
+                disabled={isContinueDisabled}
                 onClick={handleNext}
                 fullWidth
                 variant="contained"
                 color="secondary">
-                  Next
+                  Submit
               </Button>
           </Grid>
           <Grid item xs={12} md={6}>

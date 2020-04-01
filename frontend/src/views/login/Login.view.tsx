@@ -17,6 +17,8 @@ import { RouterDispatchContext, NAMED_ROUTES } from './../../router/context/Rout
 import {AppStateContext} from './../../common/context/AppContext';
 import { getUserDetails } from './../../common/async/AsyncCalls';
 import { getLocalStorageItem } from './../../common/helper/LocalStorageProvider';
+// notification
+import { SnackbarHelper, NOTIFICATION_TYPE } from '../../common/context/SnackbarHelper';
 
 
 const LoginView : FunctionComponent = () => {
@@ -26,7 +28,8 @@ const LoginView : FunctionComponent = () => {
     //states
     const [username,setUserName] = useState('');
     const [password, setPassword] = useState('');
-    const [errMsg,setErrMsg] = useState('');
+    const [noteType, setNoteType] = useState<NOTIFICATION_TYPE>(NOTIFICATION_TYPE.ERROR);
+    const [noteMsg, setNoteMsg] = useState('');
     const [isLoading, setLoading] = useState(true);
 
     // life-cycle
@@ -49,7 +52,7 @@ const LoginView : FunctionComponent = () => {
     // event handlers
     const handleChange = (event: any) => {
         if (event.target.value !== '') {
-            setErrMsg('');
+            setNoteMsg('');
         }
         if (event.target.name === 'email') {
             setUserName(event.target.value);
@@ -72,7 +75,7 @@ const LoginView : FunctionComponent = () => {
         })
         .catch(err => {
           setLoading(false);
-          setErrMsg(`INVALID USERNAME / PASSWORD`);
+          setNoteMsg(`INVALID USERNAME / PASSWORD`);
         });
     };
 
@@ -87,6 +90,7 @@ const LoginView : FunctionComponent = () => {
     return (
         <React.Fragment>
             <Grid container spacing={1} className={classes.root} alignItems="center">
+                <SnackbarHelper type={noteType} message={noteMsg} />
                 <Paper className={classes.paper}>
                     <div className={classes.contentWrapper}>
                         <img src={logo} className={classes.imageIcon} alt="logo"/>

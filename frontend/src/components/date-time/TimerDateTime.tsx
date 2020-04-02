@@ -2,7 +2,7 @@ import 'date-fns';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import MomentUtils from "@date-io/moment";
-import { makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import {
     MuiPickersUtilsProvider,
     TimePicker,

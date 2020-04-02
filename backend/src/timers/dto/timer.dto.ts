@@ -1,18 +1,19 @@
-import { IsNotEmpty, IsOptional, IsNumber, IsIn, IsArray } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsNumber, IsIn, IsArray, IsBoolean } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 import { TIMER_STATUS, TIMER_TYPE } from '../models/timer.model';
 
 export class TimerDetailsDto {
-    @ApiModelProperty ({
-        required: true
-    })
-    @IsNotEmpty()
-    createdBy: string;
-
+    
     @ApiModelProperty()
     @IsNotEmpty()
     @IsIn([ TIMER_STATUS.ACTIVE, TIMER_STATUS.COMPLETED ])
     status: TIMER_STATUS;
+
+    @ApiModelProperty({
+        required: true
+    })
+    @IsBoolean()
+    selected: boolean;
 
     @ApiModelProperty ({
         required: true
@@ -34,8 +35,7 @@ export class TimerDetailsDto {
     @ApiModelProperty ({
         required: true
     })
-    @IsArray()
-    timeDate: Date [];
+    timeDate: string;
 
     @ApiModelProperty()
     @IsOptional()

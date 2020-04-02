@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useState, useEffect } from 'react';
+import React, { FunctionComponent, useContext, useState, useEffect, useCallback } from 'react';
 // material
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +9,8 @@ import { SnackbarHelper, NOTIFICATION_TYPE } from '../../../../../../common/cont
 import { CircularLoader } from './../../../../../../components/loaders/circular-loader/CircularLoader';
 import { HeaderDispatchContext, HEADER_ACTION } from './../../../../../../components/header/context/HeaderContext';
 import { TimerStateContext, ITimerContextState } from '../../../../context/TimerContext';
+import { getLocalStorageItem } from './../../../../../../common/helper/LocalStorageProvider';
+import { createTimer } from './../../../../../../common/async/AsyncCalls';
 
 interface IPanelFourProps {
     isCreate: boolean;
@@ -23,33 +25,68 @@ export const PanelFour: FunctionComponent<IPanelFourProps> = (props): JSX.Elemen
     const [ noteType, setNoteType ] = useState<NOTIFICATION_TYPE>(NOTIFICATION_TYPE.SUCCESS);
     const [ noteMsg, setNoteMsg ] = useState('');
     // event handlers
-    const navTimerView = () => {
+    const navTimerView = useCallback(() => {
         headerDispatch ({
             type: HEADER_ACTION.TIMER_PANEL_CHANGE,
             payload: 0
         });
-    };
+    },[headerDispatch]);
 
-    const createNewTimer = () => {
-        const { title, description, link, type, dateTime } = timerState;
-        console.log('Create timer payload is: ', title, description, link, type, dateTime);
-        setContent (
-            <Grid item xs={12} md={12}>
-            <Typography color="textSecondary" align="center" paragraph>
-                Congratulations! your are all set, <br/>
-            </Typography>
-            <Grid item xs={12} md={12}>
-              <Button
-                onClick={navTimerView}
-                fullWidth
-                variant="contained"
-                color="secondary">
-                 View Timer
-              </Button>
-          </Grid>
-          </Grid>
-        );
-    };
+    const createNewTimer = useCallback(() => {
+
+        const token: string = getLocalStorageItem('token');
+        const { title, description, link, type, timeDate } = timerState;
+        console.log('Create timer payload is: ', title, description, link, type, timeDate);
+        createTimer (token, {
+            title,
+            description,
+            selected: true,
+            timeDate,
+            link,
+            type
+        })
+        .then((res: any) => {
+            setNoteType(NOTIFICATION_TYPE.SUCCESS);
+            setNoteMsg(`Success! Timer created !!`);
+            setContent (
+                <Grid item xs={12} md={12}>
+                    <Typography color="textSecondary" align="center" paragraph>
+                        Congratulations! your are all set, <br/>
+                    </Typography>
+                    <Grid item xs={12} md={12}>
+                        <Button
+                            onClick={navTimerView}
+                            fullWidth
+                            variant="contained"
+                            color="secondary">
+                                View Timer
+                        </Button>
+                    </Grid>
+                </Grid>
+            );
+        })
+        .catch((err: any)=> {
+            console.log('Error creating timer: ', err);
+            setNoteType(NOTIFICATION_TYPE.ERROR);
+            setNoteMsg(`Error! Please try again !!`);
+            setContent (
+                <Grid item xs={12} md={12}>
+                    <Typography color="textSecondary" align="center" paragraph>
+                        Oops! Something went wrong, please try again, <br/>
+                    </Typography>
+                    <Grid item xs={12} md={12}>
+                        <Button
+                            onClick={navTimerView}
+                            fullWidth
+                            variant="contained"
+                            color="secondary">
+                                Go Back
+                        </Button>
+                    </Grid>
+                </Grid>
+            );
+        });
+    },[navTimerView, timerState]);
 
     // side-effects
     useEffect(() => {
@@ -57,7 +94,7 @@ export const PanelFour: FunctionComponent<IPanelFourProps> = (props): JSX.Elemen
         if ( isCreate ) {
             createNewTimer();
         }
-    },[props]);
+    },[props, createNewTimer]);
 
     return (
         <React.Fragment>

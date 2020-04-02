@@ -25,10 +25,11 @@ export interface ITimerResponse {
     id?: string;
     createdBy: IDisplayUser;
     status: TIMER_STATUS;
+    selected: boolean;
     title: string;    
     description: string;
     type: TIMER_TYPE;
-    timeDate: Date[];
+    timeDate: string;
     link: string;
 }
 
@@ -39,10 +40,11 @@ export interface ITimer {
     id?: string;
     createdBy: string;
     status: TIMER_STATUS;
+    selected: boolean;
     title: string;    
     description: string;
     type: TIMER_TYPE;
-    timeDate: Date[];
+    timeDate: string;
     link: string;
 }
 
@@ -53,32 +55,39 @@ export const TimerSchema = new Schema ({
     createdBy: {
         type: String,
         required: 'Require User ID who has started the timer'
-    }, 
+    },
+
     status: {
         type: String,
         required: 'Provide status of the timer',
-        default: TIMER_STATUS.ACTIVE
     },
+
+    selected: {
+        type: Boolean,
+        required: 'Require isSelected for Preview Screen',
+    },
+
     title: {
         type: String,
         unique: true,
         required: 'Enter the Title of the Timer'
-    }, 
+    },
+
     description: {
         type: String,
     },
+
     type: {
         type: String,
         required: 'Should be of type - UNTIL, SINCE, FROMTO'
     },
+
     timeDate: {
-        type: Array,
-        required: 'Provide Start Date of Timer',
-        default: [Date.now()]
+        type: String,
+        required: 'Provide Start Date of Timer in Array Format',
     },
+
     link: {
-        type: String,        
-        required: 'Provide a link to task / some article / image',
-        default: 'https://timely-travel.herokuapp.com/'
+        type: String,
     },
 });

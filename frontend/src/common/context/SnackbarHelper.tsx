@@ -67,7 +67,7 @@ export const SnackbarHelper: FunctionComponent<ISnackbarHelperProps> = (props) =
         if (message !== '') {
             enqueueSnackbar (message, {variant: type, action: actionButton });
         }
-    },[message, type]);
+    },[message, type, enqueueSnackbar]);
 
     return (
         <React.Fragment></React.Fragment>

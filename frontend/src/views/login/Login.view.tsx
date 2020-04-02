@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useState, useEffect } from 'react';
+import React, { FunctionComponent, useContext, useState, useEffect, useCallback } from 'react';
 // material
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -24,7 +24,7 @@ import { SnackbarHelper, NOTIFICATION_TYPE } from '../../common/context/Snackbar
 const LoginView : FunctionComponent = () => {
     const classes = useStyles();
     const appContext = useContext(AppStateContext);
-    const dispatch: any = useContext(RouterDispatchContext);
+    const dispatch: any = useContext (RouterDispatchContext);
     //states
     const [username,setUserName] = useState('');
     const [password, setPassword] = useState('');
@@ -32,9 +32,9 @@ const LoginView : FunctionComponent = () => {
     const [isLoading, setLoading] = useState(true);
 
     // life-cycle
-    const fetchLoggedInUserDetails = () => {
+    const fetchLoggedInUserDetails = useCallback(() => {
         const token: string = getLocalStorageItem('token');
-        console.log('Token is: ', token);
+        // console.log('Token is: ', token);
         getUserDetails(token)
         .then((res: any) => {
             setLoading(false);
@@ -46,7 +46,7 @@ const LoginView : FunctionComponent = () => {
             setLoading(false);
             console.log('Error fetching user details: ', err);
         });
-    };
+    },[dispatch]);
 
     // event handlers
     const handleChange = (event: any) => {
@@ -84,7 +84,7 @@ const LoginView : FunctionComponent = () => {
         setTimeout(()=>{
             fetchLoggedInUserDetails();
         },1000);
-    },[]);
+    },[fetchLoggedInUserDetails]);
 
     return (
         <React.Fragment>

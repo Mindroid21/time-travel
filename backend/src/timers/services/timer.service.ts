@@ -15,6 +15,19 @@ export class TimerService {
     }
 
     /**
+     * Check if title exists in draft records
+     * @param title 
+     */
+    async checkTitleExists(user: IDisplayUser, title: string): Promise<boolean> {
+        const result = await this.timerModel.find({title: title, createdBy: user.id});        
+        if (result && result.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Check if title exists in timer records and return
      * REQUIRED - for searching timer by title
      * @param title 
@@ -53,13 +66,16 @@ export class TimerService {
      * @returns Promise<string> id of the record created     
      */
     async addTimer (timer: ITimer): Promise<string> {
-        const { title, createdBy, description, type, timeDate, status, link } = timer;
+        const { title, description, type, selected, timeDate, status, link, createdBy } = timer;
+        this.logger.verbose(`timer value is: ${JSON.stringify(timer)}`);
+        this.logger.verbose(`.............................................................`);
         try {
             const newRecord = new this.timerModel({
                 title: title.toLowerCase(),
                 createdBy,
                 description,
                 type,
+                selected,
                 timeDate,              
                 status,
                 link,
@@ -83,7 +99,7 @@ export class TimerService {
      * @returns Promise<string> id of the record updated
      */
     async updateTimerById (id: string, timer: ITimer): Promise<string> {
-        const { title, createdBy, description, type, timeDate, status, link } = timer;
+        const { title, createdBy, description, type, timeDate, status, selected, link } = timer;
         if (!Object.values(TIMER_STATUS).includes(timer.status)) {
             throw new BadRequestException('Status not available');
         }
@@ -92,10 +108,24 @@ export class TimerService {
             createdBy,
             description,
             type,
+            selected,
             timeDate,              
             status,
             link,
         }, { new: true });
+        return record.id;
+    }
+
+    /**
+     * Update timer with id isSelected field
+     * @param {string} id 
+     * @param {status} boolean 
+     * @returns Promise<string> id of the record updated
+     */
+    async updateTimerSelectedById (id: string, status: boolean): Promise<string> {
+        const record = await this.timerModel.findOneAndUpdate({_id: id}, {
+            selected: status,
+        });
         return record.id;
     }
 

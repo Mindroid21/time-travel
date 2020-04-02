@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FunctionComponent, useContext } from 'react';
+import React, { useState, useEffect, FunctionComponent, useContext, useCallback } from 'react';
 import clsx from 'clsx';
 // material
 import Grid from '@material-ui/core/Grid';
@@ -45,6 +45,7 @@ interface ICUTimerStepperProps {
 
 const CUTimerStepper: FunctionComponent<ICUTimerStepperProps> = (props) => {
   // timer context
+  const { isCreate } = props;
   const timerStateContext = useContext(TimerStateContext);
   const timerDispatch: any = useContext(TimerDispatchContext); 
   // styling
@@ -53,50 +54,51 @@ const CUTimerStepper: FunctionComponent<ICUTimerStepperProps> = (props) => {
   const [activeStep, setActiveStep] = useState(0);
   const [content, setContent] = useState(<React.Fragment></React.Fragment>);
   const steps = getSteps();
+
   // event handlers
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setActiveStep (prevActiveStep => prevActiveStep + 1);
-  };
+  },[]);
 
   const handleBack = () => {
     console.log('Calling CUTimerStepper onBack');
     setActiveStep (prevActiveStep => prevActiveStep - 1);
   };
 
-  const handlePanelOneSubmit = (data: IPanelOneData) => {
+  const handlePanelOneSubmit = useCallback((data: IPanelOneData) => {
     timerDispatch ({
       type: CONTEXT_ACTION_TYPE.TITLE_DESCRIPTION,
       payload: { title: data.title, description: data.description }
     });
     handleNext();
-  };
+  },[handleNext, timerDispatch]);
 
-  const handlePanelTwoSubmit = (data: IPanelTwoData) => {
+  const handlePanelTwoSubmit = useCallback((data: IPanelTwoData) => {
     timerDispatch ({
-      type: CONTEXT_ACTION_TYPE.DATE_TIME_TYPE,
-      payload: { type: data.type, dateTime: data.dateTime }
+      type: CONTEXT_ACTION_TYPE.TIME_DATE_TYPE,
+      payload: { type: data.type, timeDate: data.timeDate}
     });
     handleNext();
-  };
+  },[handleNext, timerDispatch]);
   
-  const handlePanelThreeSubmit = (data: IPanelThreeData) => {
+  const handlePanelThreeSubmit = useCallback((data: IPanelThreeData) => {
     timerDispatch ({
       type: CONTEXT_ACTION_TYPE.LINK,
       payload: { link: data.link }
     });
     handleNext();
-  };
+  },[handleNext, timerDispatch]);
 
   // side-effects
   useEffect(()=>{
-    const { title, description, link, dateTime, type } = timerStateContext;
+    const { title, description, link, timeDate, type } = timerStateContext;
     if (activeStep === 0) {
       setContent (
         <PanelOne title={title} description={description} onSubmit={handlePanelOneSubmit} />
       );
     } else if (activeStep === 1) {
       setContent (
-        <PanelTwo title={title} type={type} dateTime={dateTime} onSubmit={handlePanelTwoSubmit} onBack={handleBack} />
+        <PanelTwo title={title} type={type} timeDate={timeDate} onSubmit={handlePanelTwoSubmit} onBack={handleBack} />
       )
     } else if (activeStep === 2) {
       setContent (
@@ -104,16 +106,16 @@ const CUTimerStepper: FunctionComponent<ICUTimerStepperProps> = (props) => {
       );
     } else if (activeStep === 3) {
       setContent (
-        <PanelFour isCreate={props.isCreate} />
+        <PanelFour isCreate={isCreate} />
       );
     } 
   },[
-      timerStateContext.title,
-      timerStateContext.description,
-      timerStateContext.link,
-      timerStateContext.description,
-      timerStateContext.type,
+      handlePanelOneSubmit,
+      handlePanelTwoSubmit,
+      handlePanelThreeSubmit,
+      timerStateContext,
       activeStep,
+      isCreate
     ]);
     
   return (

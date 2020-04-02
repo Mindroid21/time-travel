@@ -50,7 +50,7 @@ export const SimpleSwitch: FunctionComponent<ISimpleSwitch> = (props): JSX.Eleme
   //side-effects
   useEffect(()=>{
       onSwitch(state.checkedA);
-  },[state.checkedA]);
+  },[state.checkedA, onSwitch]);
 
   return (
     <FormGroup>

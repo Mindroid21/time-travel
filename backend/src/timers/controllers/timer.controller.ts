@@ -30,8 +30,9 @@ export class TimerController {
             id:'',
             createdBy: {firstName: '', lastName: '', username: '', role: USER_ROLES.FREE},
             title: '',
+            selected: false,
             description: '',
-            timeDate: [],
+            timeDate: '',
             type: TIMER_TYPE.SINCE,
             status: TIMER_STATUS.ACTIVE,
             link: '',
@@ -55,18 +56,19 @@ export class TimerController {
 
     private async fetchDataItemFromSchemas(item: any): Promise<any> {
         try {
-            let draftItem: ITimerResponse = this.resetTimerResponse();                    
+            let timerItem: ITimerResponse = this.resetTimerResponse();                    
                 // Fetching user
-                draftItem.createdBy = await this.fetchUserDetails(item.createdBy);                
+                timerItem.createdBy = await this.fetchUserDetails(item.createdBy);                
                 // Fetch remaining details
-                draftItem.id = item['_id'];
-                draftItem.title = item.title;
-                draftItem.description = item.description;
-                draftItem.type = item.type;
-                draftItem.timeDate = item.eDate;
-                draftItem.status = item.status;     
-                draftItem.link = item.link;           
-                return draftItem;
+                timerItem.id = item['_id'];
+                timerItem.title = item.title;
+                timerItem.description = item.description;
+                timerItem.selected = item.selected;
+                timerItem.type = item.type;
+                timerItem.timeDate = item.timeDate;
+                timerItem.status = item.status;     
+                timerItem.link = item.link;           
+                return timerItem;
         } catch (err) {
             this.logger.verbose(`Error fetching details for the record: ${JSON.stringify(item)} - ${JSON.stringify(err)}`);
             return item;
@@ -81,8 +83,8 @@ export class TimerController {
     private async fetchDataListFromSchemas(resultList: any): Promise<any> {             
         try {
             return await Promise.all(resultList.map(async item => {                 
-                const draftItem: ITimerResponse = await this.fetchDataItemFromSchemas(item);
-                return draftItem;
+                const timerItem: ITimerResponse = await this.fetchDataItemFromSchemas(item);
+                return timerItem;
             }));            
         } catch (err) {
             this.logger.verbose(`Error fetching data: `, err);
@@ -90,21 +92,25 @@ export class TimerController {
         }
     }
 
-    
-
-    @Get('/getTitle')
-    @ApiOperation({ title: 'Get all Timer records based on title. *Requires Session Token' })
+    @Get('/checkTitle')
+    @ApiOperation({ title: 'Check if Title already exists reated by the user before. *Requires Session Token' })
     @UseGuards(AuthGuard())
-    async checkTitleExists (@GetUser() user: IDisplayUser, @Query('title') title: string): Promise<boolean> {
-        // const result = await this.timerService.checkTitleExists(title.trim());
-        return await this.timerService.getTimerByTitle(user, title.trim());
+    async checkTitleExists(@GetUser() user: IDisplayUser, @Query('title') title: string): Promise<boolean> {
+        const result = await this.timerService.checkTitleExists(user, title.trim().toLowerCase());
+        if (result) {
+            this.logger.verbose(`Title exists - ${title}`);
+            return true;
+        } else {
+            this.logger.verbose(`Title does not exists - ${title}`);
+            return false;
+        }
     }
-
+    
 
     @Get()
     @ApiOperation({ title: 'Get all Timer records. *Requires Session Token' })
     @UseGuards(AuthGuard())
-    async getAllDrafts (@GetUser() user: IDisplayUser): Promise<any> {
+    async getAllTimers (@GetUser() user: IDisplayUser): Promise<any> {
         const resultList = await this.timerService.getAllTimers(user);         
         if (resultList && resultList.length > 0) {
             return await this.fetchDataListFromSchemas(resultList);
@@ -117,7 +123,7 @@ export class TimerController {
     @Get('/details/:id')
     @ApiOperation({ title: 'Get specific Timer record by its id. *Requires Session Token' })
     @UseGuards(AuthGuard())
-    async getDraftById (@Param(ValidationPipe) param: TimerParamIdDto): Promise<any> {
+    async getTimerById (@Param(ValidationPipe) param: TimerParamIdDto): Promise<any> {
         const { id } = param;
         try {
             const resultList = await this.timerService.getTimerById(id);
@@ -128,7 +134,7 @@ export class TimerController {
                 return resultList;
             }
         } catch (err) {
-            throw new BadRequestException(`Error fetching record from Draft Table - ${JSON.stringify(err)}`);
+            throw new BadRequestException(`Error fetching record from Timer Table - ${JSON.stringify(err)}`);
         }        
     }
 
@@ -136,24 +142,63 @@ export class TimerController {
     @ApiOperation({ title: 'Creates a new record of the Timer. *Requires Session Token' })
     @UseGuards(AuthGuard())
     @UsePipes(ValidationPipe)
-    async addNewDraft (@Body() draftDetailsDto: TimerDetailsDto): Promise<string> {                     
-        return this.timerService.addTimer(draftDetailsDto);
+    async addNewTimer (
+            @Body() timerDetailsDto: TimerDetailsDto, 
+            @GetUser() user: IDisplayUser 
+    ): Promise<string> {
+        const { title, description, link, timeDate, type, selected, status } = timerDetailsDto;
+        // this.logger.verbose(`Timer controller payload is: ${JSON.stringify(timerDetailsDto)}`);
+        this.logger.verbose(`..................................................................`);
+        return this.timerService.addTimer({
+            createdBy: user.id,
+            title,
+            description,
+            selected,
+            link,
+            status,
+            type,
+            timeDate, 
+        });
     }
 
     @Put('/update/:id')
     @ApiOperation({ title: 'Update existing timer record by its id. *Requires Session Token' })
     @UseGuards(AuthGuard())
     @UsePipes(ValidationPipe)
-    async updateDraftById (
+    async updateTimerById (
         @Param('id') id: string,         
-        @Body() draftDetailsDto: TimerDetailsDto): Promise<string> {
-            return this.timerService.updateTimerById(id, draftDetailsDto);
+        @Body() timerDetailsDto: TimerDetailsDto,
+        @GetUser() user: IDisplayUser
+    ): Promise<string> {
+        const { title, description, link, timeDate, type, selected, status } = timerDetailsDto;
+        return this.timerService.updateTimerById(id, {
+            createdBy: user.id,
+            title,
+            description,
+            selected,
+            link,
+            status,
+            type,
+            timeDate, 
+        });
+    }
+
+    @Put('/updateSelected/:id/:status')
+    @ApiOperation({ title: 'Update existing timer record isSelected field by its id. *Requires Session Token' })
+    @UseGuards(AuthGuard())
+    @UsePipes(ValidationPipe)
+    async updateTimerSelectedById (
+        @Param('id') id: string,         
+        @Param('status') status: boolean,
+        @GetUser() user: IDisplayUser
+    ): Promise<string> {
+            return this.timerService.updateTimerSelectedById(id, status);
     }
 
     @Delete('/delete/:id')
     @ApiOperation({ title: 'Delete existing timer record. *Requires Session Token' })
     @UseGuards(AuthGuard())
-    async deleteDraftById (@Param(ValidationPipe) param: TimerParamIdDto): Promise <string> {
+    async deleteTimerById (@Param(ValidationPipe) param: TimerParamIdDto): Promise <string> {
         const { id } = param;
         return this.timerService.deleteTimerById(id);
     }

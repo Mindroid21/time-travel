@@ -14,7 +14,7 @@ import { useStyles } from './../cu-timer-stepper.style';
 
 export interface IPanelTwoData {
     type: boolean;
-    dateTime: Date[];
+    timeDate: Date;
 };
 
 interface IPanelTwoProps extends IPanelTwoData {
@@ -28,7 +28,7 @@ export const PanelTwo: FunctionComponent<IPanelTwoProps> = (props): JSX.Element 
     const { title, onSubmit, onBack } = props;
     // state
     const [ timerType, setTimerType ] = useState(props.type);
-    const [ timerDateTime, setTimerDateTime ] = useState(props.dateTime ? props.dateTime : [new Date()]);
+    const [ timerDateTime, setTimerDateTime ] = useState(props.timeDate ? props.timeDate : new Date());
     const [ summary, setSummary ] = useState('');
     const [ errorMsg, setErrorMsg] = useState('');
     const [ noticeType, setNoticeType] = useState<NOTIFICATION_TYPE>(NOTIFICATION_TYPE.INFO);
@@ -44,12 +44,12 @@ export const PanelTwo: FunctionComponent<IPanelTwoProps> = (props): JSX.Element 
     } else {
         console.log('Timer up is: ', data);
     }
-    setTimerDateTime([data.toDate()]);
+    setTimerDateTime(data.toDate());
     };
 
     const handleNext = () => {
         // console.log('Timer date time is: ', timerDateTime);
-        if (!isValidDate(timerType, timerDateTime[0])) {
+        if (!isValidDate(timerType, timerDateTime)) {
             let message: string;
             setNoticeType(NOTIFICATION_TYPE.ERROR);
             if (timerType) {
@@ -62,7 +62,7 @@ export const PanelTwo: FunctionComponent<IPanelTwoProps> = (props): JSX.Element 
             setErrorMsg('');
             onSubmit ({
                 type: timerType,
-                dateTime: timerDateTime,
+                timeDate: timerDateTime,
             });
         }
     };
@@ -74,7 +74,7 @@ export const PanelTwo: FunctionComponent<IPanelTwoProps> = (props): JSX.Element 
 
     useEffect(()=>{
         let summary: string;
-        summary = formatDate (timerDateTime[0]);
+        summary = formatDate (timerDateTime);
         setSummary(`${title} ${timerType ? 'until': 'since'}, ${summary}`);
     },[title, timerType, timerDateTime]);
 
@@ -90,7 +90,7 @@ export const PanelTwo: FunctionComponent<IPanelTwoProps> = (props): JSX.Element 
           <Grid item xs={12} md={12} className={classes.centerDiv}>
             <SimpleSwitch type={timerType} onSwitch={handleTimerTypeSwitch}/>
           </Grid>
-          <TimerDateTime date={timerDateTime[0]} onChange={handleDateTimeChange} />
+          <TimerDateTime date={timerDateTime} onChange={handleDateTimeChange} />
           <Grid item xs={12} md={12}>
             <SimpleText 
               content={summary}/>

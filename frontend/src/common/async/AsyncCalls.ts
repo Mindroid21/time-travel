@@ -1,6 +1,16 @@
 import axios from 'axios';
+import { ITimerContextState, TIMER_TYPE } from '../../views/timer/context/TimerContext';
 
 // COMMON
+/**
+ * Timer Status ENUM - to be mapped to status field
+ */
+export enum TIMER_STATUS {
+    ACTIVE = 'active',
+    COMPLETED = 'completed'
+};
+
+
 
 /**
  * COMMON - provide wordCount in number
@@ -60,5 +70,50 @@ export const registerUser = async (data: IRegisterData) => {
         password,
         firstName,
         lastName
+    });
+};
+
+// -----------TIMER------------
+
+/**
+ * TIMER - Check if title exists, previously created by the User
+ * @param token string
+ * @param title string
+ * @returns Promise
+ */
+export const checkTitleExists = async (token: string, title: string) => {
+    console.log('Checking title', title);
+    return axios.get(`/timer/checkTitle?title=${title}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+};
+
+
+/**
+ * TIMER - Create new timer POST request
+ * @param token string
+ * @param data ITimerContextState
+ * @returns Promise
+ */
+export const createTimer = async (token: string, data: ITimerContextState) => {
+    console.log('Creating timer', data);
+    const { title, description, type, timeDate, link, selected } = data;
+    let timerType =  type ? TIMER_TYPE.UNTIL : TIMER_TYPE.SINCE;
+    return axios.post('/timer/add', {
+        status: TIMER_STATUS.ACTIVE,
+        title,
+        description,
+        link,
+        type: timerType,
+        selected,
+        timeDate: timeDate.getTime(),
+    }, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
     });
 };

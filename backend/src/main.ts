@@ -11,7 +11,7 @@ async function bootstrap() {
   //Swagger support as a function
   apiDocumentation(app);
   const server = await app.listen(PORT);
-  console.log(`Server listening on PORT - ${server.address().port} `);
+  console.log(`Server listening on PORT - ${server.address().port}`);
 
 }
 

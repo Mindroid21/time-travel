@@ -81,7 +81,7 @@ export const registerUser = async (data: IRegisterData) => {
  * @param title string
  * @returns Promise
  */
-export const checkTitleExists = async (token: string, title: string) => {
+export const checkTitleExists = async (token: string, title: string): Promise<any> => {
     console.log('Checking title', title);
     return axios.get(`/timer/checkTitle?title=${title}`, {
         headers: {
@@ -91,6 +91,20 @@ export const checkTitleExists = async (token: string, title: string) => {
     });
 };
 
+
+/**
+ * TIMER- get all Timers
+ * @param token 
+ * @returns Promise
+ */
+export const getAllTimers = async (token: string): Promise<any> => {
+    return axios.get(`/timer`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+};
 
 /**
  * TIMER - Create new timer POST request

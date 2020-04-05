@@ -47,9 +47,18 @@ const styles = (theme: Theme) =>
     },
   });
 
+
+export interface IUserDetails {
+  id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  role: string;
+};
+
 interface IHeaderProps extends WithStyles<typeof styles> {
   onDrawerToggle: () => void;
-}
+};
 
 const Header: FunctionComponent<IHeaderProps> = (props)=>{
   const { classes, onDrawerToggle } = props;

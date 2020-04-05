@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect, useContext } from 'react';
 // material
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -8,6 +8,7 @@ import { CircularLoader } from './../../../../../../components/loaders/circular-
 import { checkTitleExists } from '../../../../../../common/async/AsyncCalls';
 import { getLocalStorageItem } from './../../../../../../common/helper/LocalStorageProvider';
 import { NOTIFICATION_TYPE, SnackbarHelper } from '../../../../../../common/context/SnackbarHelper';
+import { CONTEXT_ACTION_TYPE, TimerDispatchContext } from './../../../../context/TimerContext';
 
 export interface IPanelOneData {
     title: string;
@@ -19,7 +20,7 @@ interface IPanelOneProps extends IPanelOneData {
 }
 
 export const PanelOne: FunctionComponent<IPanelOneProps> = (props): JSX.Element => {
-    
+    const timerDispatch: any = useContext(TimerDispatchContext);
     const { title, description, onSubmit } = props;
     // states
     const [timerTitle, setTimerTitle] = useState(title);
@@ -27,7 +28,6 @@ export const PanelOne: FunctionComponent<IPanelOneProps> = (props): JSX.Element 
     const [isLoading, setLoading] = useState(false);
     const [isTitleButtonDisabled, toggleTitleButtonDisabled] = useState(true);
     const [ errorMsg, setErrorMsg] = useState('');
-    const [ noticeType, setNoticeType] = useState<NOTIFICATION_TYPE>(NOTIFICATION_TYPE.ERROR);
 
     // event handlers
     const handleTimerTitleChange = (evt: any) => {
@@ -44,6 +44,12 @@ export const PanelOne: FunctionComponent<IPanelOneProps> = (props): JSX.Element 
             setTimerDescription (evt.target.value);
         }
     };
+
+    useEffect(()=>{
+        timerDispatch ({
+            type: CONTEXT_ACTION_TYPE.RESET_TIMER
+        }) 
+    },[]);
 
     const handleNext = () => {
         setLoading(true);
@@ -67,7 +73,7 @@ export const PanelOne: FunctionComponent<IPanelOneProps> = (props): JSX.Element 
 
     return (
         <React.Fragment>
-        <SnackbarHelper type={noticeType} message={errorMsg}/>
+        <SnackbarHelper type={NOTIFICATION_TYPE.ERROR} message={errorMsg}/>
         <CircularLoader display={isLoading} />
         <TextField
           fullWidth

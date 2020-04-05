@@ -1,68 +1,86 @@
 import React, { FunctionComponent, useContext } from 'react';
 import clsx from 'clsx';
-import { FaCanadianMapleLeaf } from 'react-icons/fa';
 // material
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import SettingsIcon from '@material-ui/icons/Settings';
-import ExitIcon from '@material-ui/icons/ExitToApp';
+import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
+import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
+import TimerIcon from '@material-ui/icons/Timer';
 // custom
-import { NAMED_ROUTES, RouterDispatchContext } from './../../../router/context/RouterContext';
-import { removeLocalStorageItem } from './../../../common/helper/LocalStorageProvider';
-import { DashboardRouterDispatchContext, DASHBOARD_ROUTES } from '../../../layouts/dashboard/context/DashboardRouterContext';
 import { HeaderDispatchContext } from '../../header/context/HeaderContext';
+import { NAMED_ROUTES } from '../../../router/context/RouterContext';
+import { DASHBOARD_ROUTES, DashboardRouterDispatchContext } from '../../../layouts/dashboard/context/DashboardRouterContext';
 
-
-export interface ISettingsMenuItem {
+export interface IAppsMenuItem {
     classes: any;
 };
 
-export const SettingsMenuItem : FunctionComponent <ISettingsMenuItem> = (props) : JSX.Element => {
-    const { classes } = props;
-    const routeDispatch: any = useContext(RouterDispatchContext);
-    const dashboardRouteDispatch: any = useContext(DashboardRouterDispatchContext);
+export const AppsMenuItem : FunctionComponent <IAppsMenuItem> = (props) : JSX.Element => {
+    const {classes } = props;
     const headerDispatch: any = useContext(HeaderDispatchContext);
-    // event handlers
-    const handleSettings = () => {
+    const dashboardRouteDispatch: any = useContext(DashboardRouterDispatchContext);
+    
+
+    const handleTimer = () => {
       headerDispatch ({
-        type: NAMED_ROUTES.SETTINGS
+        type: NAMED_ROUTES.TIMER
       });
 
       dashboardRouteDispatch ({
-        type: DASHBOARD_ROUTES.SETTINGS
+        type: DASHBOARD_ROUTES.TIMER
       });
-
     };
 
-    const handleLogout = () => {
-      console.log('Calling Logout!');
-      removeLocalStorageItem('token');
-      routeDispatch ({
-        type: NAMED_ROUTES.LOGIN
+    const handleQuotes = () => {
+      headerDispatch ({
+        type: NAMED_ROUTES.QUOTES
+      });
+
+      dashboardRouteDispatch ({
+        type: DASHBOARD_ROUTES.QUOTES
+      });
+    };
+
+    const handleTodo = () => {
+      headerDispatch ({
+        type: NAMED_ROUTES.TODO
+      });
+
+      dashboardRouteDispatch ({
+        type: DASHBOARD_ROUTES.TODO
       });
     };
 
     const categories = [
-      {
-        id: 'Preferences',
-        children: [
-          { 
-            id: 'Settings', 
-            icon: <SettingsIcon />,
-            active: false,
-            action: handleSettings
-          },
-          { 
-            id: 'Logout', 
-            icon: <ExitIcon />,
-            active: false,
-            action: handleLogout
-          },
-        ],
-      },
+        {
+          id: 'My Apps',
+          children: [
+            { 
+              id: 'Timer', 
+              icon: <TimerIcon />, 
+              active: false,
+              action: handleTimer
+            },
+            { 
+              id: 'Quotes', 
+              icon: <SettingsEthernetIcon />,
+              active: false,
+              action: handleQuotes
+            },
+            { 
+              id: 'Todo', 
+              icon: <DnsRoundedIcon />,
+              active: false,
+              action: handleTodo
+            }
+          ],
+        },
     ];
+
+    
+
     return (
         <React.Fragment>
             {categories.map(({ id, children }) => (

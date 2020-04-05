@@ -5,7 +5,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import TimerIcon from '@material-ui/icons/Timer';
 // custom
@@ -69,12 +68,6 @@ export const AppsMenuItem : FunctionComponent <IAppsMenuItem> = (props) : JSX.El
               active: false,
               action: handleQuotes
             },
-            { 
-              id: 'Todo', 
-              icon: <DnsRoundedIcon />,
-              active: false,
-              action: handleTodo
-            }
           ],
         },
     ];

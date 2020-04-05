@@ -28,6 +28,7 @@ export enum CONTEXT_ACTION_TYPE {
     TIME_DATE = 'dateTime',
     TYPE = 'type',
     TOGGLE_SELECTED = 'toggle_selected',
+    RESET_TIMER = 'reset_timer',
 };
 
 export const TimerStateContext = React.createContext<ITimerContextState>({
@@ -67,6 +68,9 @@ const timerContextReducer = (state: ITimerContextState, action: {type: CONTEXT_A
         case CONTEXT_ACTION_TYPE.TOGGLE_SELECTED:
             // console.log(`Dispatch TimerContext Action: ${CONTEXT_ACTION_TYPE.LINK}`);
             return { ...state, selected: action.payload.selected };
+            case CONTEXT_ACTION_TYPE.RESET_TIMER:
+                // console.log(`Dispatch TimerContext Action: ${CONTEXT_ACTION_TYPE.RESET_TIMER}`);
+            return { title: '', description: '', link: '', timeDate: new Date(), type: false, selected: false, };
         default:
             throw new Error(`Unhandled TimerContext action type: ${action.type}`);
     }

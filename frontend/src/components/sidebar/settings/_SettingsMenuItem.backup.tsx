@@ -55,6 +55,12 @@ export const SettingsMenuItem : FunctionComponent <ISettingsMenuItem> = (props) 
             action: handleSettings
           },
           { 
+            id: 'Landscape mode', 
+            icon: <FaCanadianMapleLeaf />,
+            active: false,
+            action: ()=>{}
+          },
+          { 
             id: 'Logout', 
             icon: <ExitIcon />,
             active: false,

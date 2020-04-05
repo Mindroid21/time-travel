@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 // material
 import Typography from '@material-ui/core/Typography';
 // custom
-import SimpleCard from './../../../../components/card/SimpleCard';
+import SimpleCard from '../../../../components/card/simple/SimpleCard';
 
 const EmptyTimer: FunctionComponent = () => {
     return (

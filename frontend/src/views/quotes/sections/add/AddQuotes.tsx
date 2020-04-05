@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 // custom
-import SimpleCard from '../../../../components/card/SimpleCard';
+import SimpleCard from '../../../../components/card/simple/SimpleCard';
 import { AppDispatchContext } from '../../../../common/context/AppContext';
 import { useStyles } from './add-quotes.styles';
 

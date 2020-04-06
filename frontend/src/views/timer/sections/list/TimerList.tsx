@@ -10,11 +10,11 @@ export interface ITimerInputListData {
     title: string;
     selected: boolean;
     description: string;
-    timerDate: string;
+    timeDate: string;
     type: string;
     status: string;
     link: string;
-}
+};
 
 interface ITimerListProps {
     data: ITimerInputListData[];
@@ -27,10 +27,23 @@ export const TimerList: FunctionComponent<ITimerListProps> = (props) => {
     return (
         <React.Fragment>
                 {data && data.map((item: ITimerInputListData, index: number) => {
+                    console.log('Date is: ', new Date(parseInt(item.timeDate)));
                     return (
                         <div key={index} className={classes.listAnimation}>
-                            <TimerCard>                                
-                            </TimerCard>
+                            <TimerCard 
+                                id={item.id}
+                                date={new Date(parseInt(item.timeDate))}
+                                title={item.title}
+                                description={item.description}
+                                link={item.link}
+                                onDelete={()=>console.log('onDelete called!')}
+                                onEdit={()=>console.log('OnEdit called')}
+                                onMoveToTop={()=>console.log('onMoveTop called')}
+                                selected={item.selected}
+                                status={item.status ? true: false}
+                                type={item.type ? true: false}
+                                key={index}
+                            />                                
                         </div>
                     );
                 })}

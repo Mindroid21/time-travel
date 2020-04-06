@@ -9,8 +9,8 @@ import Divider from '@material-ui/core/Divider';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitIcon from '@material-ui/icons/ExitToApp';
 // custom
-import { NAMED_ROUTES, RouterDispatchContext } from './../../../router/context/RouterContext';
-import { removeLocalStorageItem } from './../../../common/helper/LocalStorageProvider';
+import { NAMED_ROUTES, RouterDispatchContext } from '../../../router/context/RouterContext';
+import { removeLocalStorageItem } from '../../../common/helper/LocalStorageProvider';
 import { DashboardRouterDispatchContext, DASHBOARD_ROUTES } from '../../../layouts/dashboard/context/DashboardRouterContext';
 import { HeaderDispatchContext } from '../../header/context/HeaderContext';
 
